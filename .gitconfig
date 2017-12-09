@@ -1,5 +1,6 @@
 ##########
 # This is not your main ~/.gitconfig file !!!
+# All aliases written fo git version 2.15.1
 # Make your own and use "include" statement inside:
 #
 # [user]

@@ -228,7 +228,7 @@ function swap_module(){
   local -i swap_free=$(grep '^SwapFree:' /proc/meminfo | awk '{print $2}')
   (( swap_total > swap_free )) && {
     local -l free_swap_human=$(k2h $(( swap_total - swap_free )))
-    MOD+="${P_DEF}${SLB}used_swap${SEP}${P_WARN}${free_swap_human}${P_DEF}${SRB}"
+    MOD+="${P_DEF}${SLB}swap_used${SEP}${P_WARN}${free_swap_human}${P_DEF}${SRB}"
   } || return 0
   echo "${MOD}"
 }
@@ -251,17 +251,9 @@ function space_module(){
 ##########################  VAGRANT  #######################################
 
 function vagrant_module(){
-  local MOD=""
-  local pwd=$(realpath .)
-  while [[ "${pwd}" != "/" ]]
-  do
-    [[ -f "${pwd}"/Vagrantfile && -d "${pwd}"/.vagrant ]] && {
-      MOD="${P_DEF}${SLB}vagrant${SEP}${P_TEXT}on${P_DEF}${SRB}"
-      # echo $(parse_code "${MOD}")
-      echo "${MOD}"
-    }
-    pwd=$(dirname "${pwd}")
-  done
+  [[ -f "Vagrantfile" && -d ".vagrant" ]] && {
+    echo "${P_DEF}${SLB}vagrant${SEP}${P_TEXT}on${P_DEF}${SRB}"
+  }
   return 0
 }
 

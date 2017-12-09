@@ -65,6 +65,7 @@ BASH prompt example:
 ## Features
 
 - BASH prompt with GIT and SVN support
+- GIT aliases (tested on git 2.15.1)
 - free RAM and SWAP memory indicator
 - free ~/ space indicator
 - error exit status (return code) indicator
