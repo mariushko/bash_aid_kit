@@ -1,0 +1,10 @@
+{
+  "nodes": {
+    "centos.internal.local": {
+      ":ip": "192.168.35.10",
+      "ports": [],
+      ":memory": 512,
+      ":box": "centos/7"
+    }
+  }
+}

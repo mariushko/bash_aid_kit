@@ -1,0 +1,31 @@
+#!/bin/bash
+
+filepath="${1}"
+
+[[ ${filepath} ]] || {
+  echo what file do you want to investigate?
+  exit 1
+}
+
+LAST_SEEN=$(git rev-list -n 1 HEAD -- "${filepath}" 2> /dev/null)
+
+[[ ${LAST_SEEN} ]] || {
+  echo File ${filepath} unknown
+  exit 2
+}
+
+temp=$(mktemp -d)
+absolute_path="$(realpath .)/${filepath}"
+relative_path="${absolute_path#$(git rev-parse --show-toplevel)/}"
+
+while read sha date
+do
+  git show "${sha}:${relative_path}" > ${temp}/${date}-${sha}.file
+done < <(
+  git log \
+    --format="%H %ad" \
+    --date="format: %Y%m%d_%H%M" \
+    --diff-filter=d \
+    -- "${filepath}"
+)
+echo Take a closer look at: ${temp}

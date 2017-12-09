@@ -1,0 +1,119 @@
+# vi:syntax=sh
+[[ ${-} == *i* ]] || return 0
+
+declare -i COLOR_SUPPORT
+for term in xterm-256color ${TERM} xterm-88color xterm-16color xterm-color linux
+do
+  export TERM="${term}"
+  tput init &> /dev/null || continue
+  COLOR_SUPPORT=$(tput colors 2> /dev/null || :)
+  (( COLOR_SUPPORT >= 8 )) && break
+done
+export COLOR_SUPPORT
+
+export C_RESET=""
+export C_GREY=""
+export C_RED=""
+export C_BRED=""
+export C_LRED=""
+export C_GREEN=""
+export C_LIME=""
+export C_YELLOW=""
+export C_BYELLOW=""
+export C_GOLD=""
+export C_BLUE=""
+export C_BBLUE=""
+export C_PURPLE=""
+export C_VIOLET=""
+export C_CYAN=""
+export C_WHITE=""
+export C_BWHITE=""
+export C_DIM=""
+
+export P_RESET=""
+export P_GREY=""
+export P_RED=""
+export P_BRED=""
+export P_GREEN=""
+export P_LIME=""
+export P_YELLOW=""
+export P_BYELLOW=""
+export P_GOLD=""
+export P_BLUE=""
+export P_BBLUE=""
+export P_PURPLE=""
+export P_VIOLET=""
+export P_CYAN=""
+export P_WHITE=""
+export P_BWHITE=""
+export P_DIM=""
+
+(( COLOR_SUPPORT >= 8 )) && {
+  export C_RESET="\e[0m"
+  export C_GREY="\e[0;1;30m"
+  export C_RED="\e[0;31m"
+  export C_BRED="\e[0;1;31m"
+  export C_LRED="\e[0;2;31m"
+  export C_GREEN="\e[0;1;32m"
+  export C_LIME="\e[0;32m"
+  export C_YELLOW="\e[0;33m"
+  export C_BYELLOW="\e[0;1;33m"
+  export C_GOLD="\e[0;1;33m"
+  export C_BLUE="\e[0;34m"
+  export C_BBLUE="\e[0;1;34m"
+  export C_PURPLE="\e[0;1;35m"
+  export C_VIOLET="\e[0;35m"
+  export C_CYAN="\e[0;1;36m"
+  export C_WHITE="\e[0;37m"
+  export C_BWHITE="\e[0;1;37m"
+  export C_DIM="\e[0;2;37m"
+
+  export P_RESET="\[${C_RESET}\]"
+  export P_GREY="\[${C_GREY}\]"
+  export P_RED="\[${C_RED}\]"
+  export P_BRED="\[${C_BRED}\]"
+  export P_LRED="\[${C_LRED}\]"
+  export P_GREEN="\[${C_GREEN}\]"
+  export P_LIME="\[${C_LIME}\]"
+  export P_YELLOW="\[${C_YELLOW}\]"
+  export P_BYELLOW="\[${C_BYELLOW}\]"
+  export P_GOLD="\[${C_GOLD}\]"
+  export P_BLUE="\[${C_BLUE}\]"
+  export P_BBLUE="\[${C_BBLUE}\]"
+  export P_PURPLE="\[${C_PURPLE}\]"
+  export P_VIOLET="\[${C_VIOLET}\]"
+  export P_CYAN="\[${C_CYAN}\]"
+  export P_WHITE="\[${C_WHITE}\]"
+  export P_BWHITE="\[${C_BWHITE}\]"
+  export P_DIM="\[${C_DIM}\]"
+}
+export COLOR_SUPPORT
+
+[[ $(id -u) == 0 ]] && {
+  export C_USER="${C_BRED}"
+  export C_HOST="${C_BBLUE}"
+  export P_USER="${P_BRED}"
+  export P_HOST="${P_BBLUE}"
+} || {
+  export C_USER="${C_CYAN}"
+  export C_HOST="${C_PURPLE}"
+  export P_USER="${P_CYAN}"
+  # export P_USER="${P_BYELLOW}"
+  export P_HOST="${P_PURPLE}"
+}
+export C_DEF="${C_WHITE}"
+export C_ALARM="${C_BRED}"
+export C_OK="${C_LIME}"
+export C_WARN="${C_YELLOW}"
+export C_ERR="${C_RED}"
+
+export P_ALARM="${P_BRED}"
+export P_OK="${P_LIME}"
+export P_WARN="${P_YELLOW}"
+export P_ERR="${P_RED}"
+export P_DEF="${P_DIM}"
+export P_TEXT="${P_WHITE}"
+# export P_PATH="${P_BWHITE}"
+# export P_PATH="${P_CYAN}"
+export P_PATH="${P_BYELLOW}"
+export P_EXIT="${P_BRED}"

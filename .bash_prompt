@@ -1,0 +1,228 @@
+# vi:syntax=sh
+[[ ${-} == *i* ]] || return 0
+
+[[ ${_} != ${0} ]] && {
+  export SOURCEDIR="$(dirname ${BASH_SOURCE})"
+} || {
+  export SOURCEDIR=~/.env
+}
+
+# Colors:
+# P_USER # P_HOST # P_ALARM
+# P_OK   # P_WARN # P_ERR
+# P_DEF  # P_TEXT # P_PATH
+
+# Settings:
+# Main Brackets:
+export MLB='[' MRB=']'
+# Secondary Brackets:
+export SLB='' SRB=''
+# Modules Separator:
+export MSEP=' '
+# Separator:
+export SEP='='
+# Power/Battery prefix:
+export PAC="ac" PDC="dc"
+
+[[ -f ${SOURCEDIR}/.bash_modules ]] && source ${SOURCEDIR}/.bash_modules || :
+
+## timer
+#
+# function timer_start(){ TIME_START=${TIME_START:-$SECONDS}; }
+# function timer_stop(){ TIMER=$(( SECONDS - TIME_START )); unset TIME_START; }
+# function print_timer(){
+#   [[ ${TIMER} ]] && (( TIMER >= 10 )) && echo -en " last${SEP}$(s2h ${TIMER})"
+# }
+# export TIMER_PS1="\$(print_timer)"
+## the end of timer
+
+## exit status
+function print_exitstatus(){
+  local -i RC=${1:-0}
+  # (( ${RC} > 0 )) && echo -en "ExitStatus${SEP}<${RC}>" || echo "#"
+  (( ${RC} > 0 )) && echo -en "[ExitStatus${SEP}<${RC}>]"
+}
+## strip code of console codes
+function strip_code(){
+  echo "${@}" | sed 's#\\\[[^]]*\]##g'
+}
+## trim path
+export PROMPT_DIRTRIM=3
+function pwdtrimer(){
+  local -i ROOM=$(( COLUMNS - 4 ))
+  local -r ORGPWD=$(sed "s|^${HOME}|~|" <<< "${PWD}")
+  local TMPPWD="${ORGPWD}"
+  (( ROOM >= ${#ORGPWD} )) && {
+    printf "%s" "${ORGPWD}"
+    return 0
+  }
+  # first try
+  for MAXCHAR in $(seq 12 -1 4)
+  do
+    TMPPWD="${ORGPWD}"
+    IFS='/' read -r -a DIRTAB <<< "${TMPPWD}"
+    TMPPWD=""
+    for dir in "${DIRTAB[@]}"
+    do
+      [[ ${dir} ]] || continue
+      (( ${#dir} > MAXCHAR )) && {
+        dir="${dir:0:$((MAXCHAR-1))}*"
+      }
+      [[ "${dir}" == "~" ]] && TMPPWD="~" || TMPPWD+="/${dir}"
+    done
+    (( ROOM >= ${#TMPPWD} )) && {
+      printf "%s" "${TMPPWD}"
+      return 0
+    }
+  done
+  # second try
+  local TMPPWD="${ORGPWD}"
+  for DIRTRIM in $(seq 5 -1 1)
+  do
+    local REVPWD=$(rev <<< "${TMPPWD}")
+    IFS='/' read -r -a DIRTAB <<< "${REVPWD}"
+    local home=false
+    [[ ${DIRTAB[${#DIRTAB[@]}-1]} == "~" ]] && home=true
+    unset DIRTAB[${#DIRTAB[@]}-1]
+    (( ${#DIRTAB[@]} <= DIRTRIM + 1)) && {
+      (( ROOM >= ${#TMPPWD} )) && {
+        printf "%s" "${TMPPWD}"
+        return 0
+      } || continue
+    }
+    REVPWD=""
+    for dir in $(seq 0 $(( DIRTRIM - 1 )))
+    do
+      REVPWD+="${DIRTAB[${dir}]}/"
+    done
+    REVPWD+=".../"
+    TMPPWD=$(rev <<< "${REVPWD}")
+    [[ ${home} == true ]] && TMPPWD="~${TMPPWD}"
+    (( ROOM >= ${#TMPPWD} )) && {
+      printf "%s" "${TMPPWD}"
+      return 0
+    }
+  done
+  printf "%s" "."
+  return 0
+}
+
+#############################################################################
+################################ PROMPT #####################################
+#############################################################################
+
+function set_prompt(){
+  PS1=
+  local PS1_RIGHT=""
+  local PS1_LEFT=""
+
+  PS1+="${P_DEF}┌─"
+  # pwd
+  PS1+="${P_DEF}${MLB}"
+  # PS1+="${P_PATH}\w"
+  PS1+="${P_PATH}$(pwdtrimer)"
+  PS1+="${P_DEF}${MRB}"
+  local jump=$(strip_code "${PS1}")
+  # how mach space I need for first part of PROMPT
+  declare -i FIRST_STOP=${#jump}
+  # compute modules on the left panel:
+  for name in \
+    ugo_module \
+    acl_module \
+    realpath_module \
+    vagrant_module
+  do
+    PS=$(${name})
+    PS1_LEFT+="${PS:+${MSEP}}${PS}"
+  done
+  jump=$(strip_code "${PS1_LEFT}")
+  [[ ${jump} ]] && {
+    PS1_LEFT+="${MSEP}"
+    PS1_LEFT="${PS1_LEFT%${MSEP}}"
+    PS1_LEFT="${PS1_LEFT#${MSEP}}"
+    PS1_LEFT="${P_DEF}${MLB}${PS1_LEFT}${P_DEF}${MRB}"
+  }
+  jump=$(strip_code "${PS1_LEFT}")
+  # how much space I need for left panel:
+  declare -i LEFT_SIDE_LEN="${#jump}"
+  # compute modules on the right side:
+  for name in \
+    battery_module \
+    internet_module \
+    ram_module \
+    swap_module \
+    "space_module ~/ home"
+#     "space_module / root"
+  do
+    PS=$(${name})
+    PS1_RIGHT+="${PS:+${MSEP}}${PS}"
+  done
+  # last fix befor jump
+  jump=$(strip_code "${PS1_RIGHT}")
+  [[ ${jump} ]] && {
+    PS1_RIGHT+="${MSEP}"
+    PS1_RIGHT="${PS1_RIGHT%${MSEP}}"
+    PS1_RIGHT="${PS1_RIGHT#${MSEP}}"
+    PS1_RIGHT="${P_DEF}${MLB}${PS1_RIGHT}${P_DEF}${MRB}"
+  }
+  # use right panel if enough room:
+  jump=$(strip_code "${PS1_RIGHT}")
+  # how much space I need for left panel:
+  declare -i RIGHT_SIDE_LEN="${#jump}"
+  # add left panel to the PROMPT if enough space
+  (( (FIRST_STOP + LEFT_SIDE_LEN) <= COLUMNS )) && PS1+="${PS1_LEFT}"
+  ## timer
+  # PS1+="${P_OK}${TIMER_PS1}${P_DEF}"
+  ## the end of timer
+  # add right panel to the PROMPT if enough space
+  (( (FIRST_STOP + LEFT_SIDE_LEN + RIGHT_SIDE_LEN) <= COLUMNS )) && {
+    PS1+="\[\e[$((COLUMNS - ${RIGHT_SIDE_LEN} + 1 ))G\]"
+    PS1+="${PS1_RIGHT}"
+  }
+  # new line
+  PS1+="\n"
+  # git
+  [[ ${GIT_PS1} ]] && {
+    local ret=$(${GIT_PS1})
+    [[ ${ret} ]] && {
+      PS1+="${P_DEF}│ ${MLB}git: ${ret}${MRB}\n"
+    }
+  }
+  # svn
+  [[ ${SVN_PS1} ]] && {
+    local ret=$(${SVN_PS1})
+    [[ ${ret} ]] && {
+      PS1+="${P_DEF}│ ${MLB}svn: ${ret}${MRB}\n"
+    }
+  }
+  ###
+  PS1+="${P_DEF}└─"
+  # username@hostname
+  PS1+="${P_DEF}${MLB}${P_USER}\u${P_DEF}@${P_HOST}\h${P_DEF}${MRB}"
+  # do not use: "su", use "su -"
+  [[ ${LOGNAME} ]] && [[ ${LOGNAME} != $(id -un) ]] && {
+    PS1+="${P_DEF}${MLB}${P_ALARM}su <= really?${P_DEF}${MRB}"
+  }
+  # do not use "sudo su", use "sudo su -" or "sudo -i"
+  [[ ${SUDO_COMMAND##*/} == "su" ]] && {
+    PS1+="${P_DEF}${MLB}${P_ALARM}sudo su <= really?${P_DEF}${MRB}"
+  }
+  # exit status
+  # PS1+="${P_DEF}${MLB}"
+  PS1+="${P_EXIT}\$(RC=\${__cmdnbary[\#]-\$?}; print_exitstatus \$RC)\${__cmdnbary[\#]=}"
+  # PS1+="${P_DEF}${MRB}"
+  # the end of prompt
+  (( $(id -u) == 0 )) && PS1+="${P_BWHITE}#" || PS1+="${P_BWHITE}\$"
+  PS1+="${P_RESET} "
+  # exporting
+  export PS1
+}
+
+############## timer
+# trap 'timer_start' DEBUG
+# export PROMPT_COMMAND="${PROMPT_COMMAND:+${PROMPT_COMMAND}; }set_prompt; timer_stop"
+##### the end of timer
+
+export PROMPT_COMMAND="${PROMPT_COMMAND:+${PROMPT_COMMAND}; }set_prompt"
+
+return 0

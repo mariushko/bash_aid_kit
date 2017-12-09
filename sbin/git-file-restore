@@ -1,0 +1,19 @@
+#!/bin/bash
+
+filepath="${1}"
+
+[[ ${filepath} ]] || {
+  echo what file do you want to restore?
+  exit 1
+}
+
+[[ $(git ls-tree -r HEAD --name-only -- ${filepath}) == ${filepath} ]] && {
+  git checkout HEAD -- "${filepath}"
+} || {
+  LAST_SEEN=$(git rev-list -n 1 HEAD -- "${filepath}" 2> /dev/null)
+  [[ ${LAST_SEEN} ]] || {
+    echo File ${filepath} unknown
+    exit 2
+  }
+  git checkout ${LAST_SEEN}^ -- "${filepath}"
+}

@@ -1,0 +1,9 @@
+#!/bin/bash
+
+while read -r FILE
+do
+  FILENAME="${FILE%.wget}"
+  REMOTE="$(cat ${FILE})"
+  [[ ${REMOTE} == http*://* ]] || continue
+  wget "${REMOTE}" -O "${FILENAME}"
+done < <( find "$(git rev-parse --show-toplevel)" -type f -name '*.wget' )

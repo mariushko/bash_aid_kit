@@ -1,0 +1,277 @@
+# vi:syntax=sh
+[[ ${-} == *i* ]] || return 0
+
+[[ ${_} != ${0} ]] && {
+  export SOURCEDIR="$(dirname ${BASH_SOURCE})"
+} || {
+  export SOURCEDIR=~/.env
+}
+
+###########################  GIT  #######################################
+# https://raw.github.com/git/git/master/contrib/completion/git-prompt.sh
+# https://raw.github.com/git/git/master/contrib/completion/git-completion.bash
+
+[[ -f "${SOURCEDIR}"/.git-completion.sh ]] && source "${SOURCEDIR}"/.git-completion.sh
+export GIT_PS1=""
+[[ -f "${SOURCEDIR}"/.git-prompt.sh ]] && {
+  export GIT_PS1_SHOWUNTRACKEDFILES=1
+  export GIT_PS1_SHOWDIRTYSTATE=1
+  export GIT_PS1_SHOWUPSTREAM=verbose
+  export GIT_PS1_SHOWSTASHSTATE=1
+  export GIT_PS1_DESCRIBE_STYLE=branch
+  source "${SOURCEDIR}"/.git-prompt.sh
+  function print_git_prompt(){
+    local BRANCH=$(__git_ps1 '%s')
+    [[ "${BRANCH}" ]] || return 0
+    local REMOTE=$(git remote 2> /dev/null)
+    local REMOTEURL
+    [[ "${REMOTE}" ]] && {
+      REMOTEURL=$(git remote get-url ${REMOTE} 2> /dev/null | sed 's#^.*://##' | sed 's#^.*@##')
+    } || REMOTEURL=local
+    echo -en "${REMOTEURL} (${P_TEXT}${BRANCH}${P_DEF})"
+  }
+  export GIT_PS1="print_git_prompt"
+}
+
+###########################  SVN  #######################################
+# https://raw.github.com/mcandre/svn-prompt/master/lib/svn-prompt.sh
+
+export SVN_PS1=""
+[[ -f "${SOURCEDIR}"/.svn-prompt.sh ]] && {
+  source "${SOURCEDIR}"/.svn-prompt.sh
+  function print_svn_prompt(){
+    local ROOT=$(langc parse_svn_repository_root | sed 's#^.*://##' | sed 's#^.*@##')
+    [[ "${ROOT}" ]] || return 0
+    local BRANCH=$(langc parse_svn_branch)
+    echo -en "${ROOT}"
+    [[ "${BRANCH}" ]] && echo -n " ${P_TEXT}<${BRANCH}>${P_DEF}" || :
+    local REVISION=$(langc svn info 2> /dev/null | grep "^Revision:" | cut -d' ' -f2)
+    [[ ${REVISION} ]] && echo -n " Revision=${P_TEXT}${REVISION}${P_DEF}"
+  }
+  export SVN_PS1="print_svn_prompt"
+}
+
+#############################  BATTERY #############################
+export BATTERY_DEVICE=""
+export BATTERY_PS1=""
+which upower &> /dev/null && {
+  while read dev
+  do
+    (( $(upower -i ${dev} | egrep -c '^ *(rechargeable|present|power supply): *yes$') == 3 )) && {
+      export BATTERY_DEVICE="${dev}"
+      break
+    }
+  done < <(upower -e)
+
+  [[ ${BATTERY_DEVICE} ]] && {
+    function print_battery_state(){
+      local -l state=$(
+        upower -i ${BATTERY_DEVICE} | grep state: | awk '{print $2}'
+      )
+      local -i percentage=$(
+        upower -i ${BATTERY_DEVICE} \
+        | grep percentage: \
+        | awk '{print $2}' \
+        | sed 's#%##'
+      )
+      [[ "${state}" == "discharging" ]] \
+        && echo "-${percentage}" \
+        || echo  "${percentage}"
+      return 0
+    }
+    export BATTERY_PS1="print_battery_state"
+  }
+} || {
+  for dev in $(grep -l '^1$' /sys/class/power_supply/*/present 2> /dev/null | cut -d'/' -f5)
+  do
+    grep -q '^Battery$' /sys/class/power_supply/${dev}/type &> /dev/null && {
+      export BATTERY_DEVICE="${dev}"
+      break
+    }
+  done
+  [[ ${BATTERY_DEVICE} ]] && {
+    function print_battery_state(){
+      local -l state=$(cat /sys/class/power_supply/${BATTERY_DEVICE}/status)
+      local -i percentage=$(cat /sys/class/power_supply/${BATTERY_DEVICE}/capacity)
+      [[ "${state}" == "discharging" ]] \
+        && echo "-${percentage}" \
+        || echo "${percentage}"
+      return 0
+    }
+    export BATTERY_PS1="print_battery_state"
+  }
+}
+
+function battery_module(){
+  [[ ${BATTERY_PS1} ]] || return 0
+  local -i ret=$(${BATTERY_PS1})
+  (( ret == 0 )) && return 0
+  local MOD=""
+  (( ret > 0 )) && {
+    # battery is present and charging
+    if (( ret <= 19 ))
+    then
+      MOD+="${P_DEF}${SLB}${P_OK}${PAC}${P_DEF}${SEP}${P_ERR}${ret}%${P_DEF}${SRB}"
+    elif (( ret <= 79 ))
+    then
+      MOD+="${P_DEF}${SLB}${P_OK}${PAC}${P_DEF}${SEP}${P_WARN}${ret}%${P_DEF}${SRB}"
+    else
+      return 0
+    fi
+  }
+  (( ret < 0 )) && {
+    # battery is present and discharging
+    (( ret = 0 - ret ))
+    if (( ret <= 19 ))
+    then
+      MOD+="${P_DEF}${SLB}${PDC}${SEP}${P_ERR}${ret}%${P_DEF}${SRB}"
+    elif (( ret <= 49 ))
+    then
+      MOD+="${P_DEF}${SLB}${PDC}${SEP}${P_WARN}${ret}%${P_DEF}${SRB}"
+    else
+      MOD+="${P_DEF}${SLB}${PDC}${SEP}${P_TEXT}${ret}%${P_DEF}${SRB}"
+    fi
+  }
+  echo "${MOD}"
+}
+########################## INTERNET CONNECTION #######################
+
+export SHARED_FILE=/dev/shm/prober
+declare PID_FILE=${SHARED_FILE}.pid
+declare PROCID
+
+export NETMON=""
+[[ -f ${PID_FILE} ]] && PROCID=$(cat ${PID_FILE})
+[[ ${PROCID} ]] && [[ -d /proc/${PROCID}/ ]] && {
+  declare SCRIPT_NAME="netmon.sh"
+  declare COMM=$(cat /proc/${PROCID}/comm)
+  COMM=${COMM##*/}
+  [[ ${SCRIPT_NAME} == ${COMM} ]] && export NETMON=${SHARED_FILE}
+} || {
+  [[ -x ${SOURCEDIR}/sbin/netmon.sh ]] && {
+    (( $(id -u) == 0 )) && {
+      systemd-run --property=Restart=always ${SOURCEDIR}/sbin/netmon.sh &> /dev/null
+    } || {
+      systemd-run --property=Restart=always --user ${SOURCEDIR}/sbin/netmon.sh &> /dev/null
+    }
+    (( $? == 0 )) && export NETMON=${SHARED_FILE}
+  }
+}
+
+function internet_connection_status(){
+  # return codes:
+  # 0: ok
+  # 1: network down
+  # 2: network up but internet down
+  function _netmon_fallback(){
+    local router=$(ip route list | grep "^default via" | head -1 | awk '{print $3}')
+    [[ ${router} ]] || return 1
+    timeout .2s ping -c1 ${router} &> /dev/null && return 0 || return 2
+  }
+  [[ -n ${NETMON} && -r ${NETMON} ]] || {
+    _netmon_fallback
+    return $?
+  }
+  local -i STAT=$(( $(cat ${NETMON} | tr ' ' '+') ))
+  if (( STAT == 0 ))
+  then
+    return 1
+  elif (( STAT == 4 ))
+  then
+    return 0
+  elif (( STAT == 3 ))
+  then
+    return 2
+  else
+    return 3
+  fi
+}
+
+function internet_module(){
+  # return codes:
+  # 0: ok
+  # 1: network down
+  # 2: network up but internet down
+  local MOD=""
+  internet_connection_status
+  local stat=$?
+  (( stat != 0 )) && MOD+="${P_DEF}${SLB}net${SEP}"
+  (( stat == 1 )) && MOD+="${P_TEXT}down"
+  (( stat == 2 )) && MOD+="${P_WARN}warn"
+  (( stat == 3 )) && MOD+="${P_ERR}err"
+  (( stat != 0 )) && {
+    MOD+="${P_DEF}${SRB}"
+    echo "${MOD}"
+  }
+}
+
+
+########################### MEMORY ##########################################
+function ram_module(){
+  local MOD=""
+  local free_mem=$(grep '^MemFree' /proc/meminfo | awk '{print $2}')
+  local -l free_mem_human=$(k2h ${free_mem})
+  (( free_mem < 512 * 1024 )) && {
+    MOD+="${P_DEF}${SLB}ram${SEP}${P_WARN}${free_mem_human}${P_DEF}${SRB}"
+  } || {
+    MOD+="${P_DEF}${SLB}ram${SEP}${P_TEXT}${free_mem_human}${P_DEF}${SRB}"
+  }
+  echo "${MOD}"
+}
+function swap_module(){
+  local MOD=""
+  local -i swap_total=$(grep '^SwapTotal' /proc/meminfo | awk '{print $2}')
+  local -i swap_free=$(grep '^SwapFree:' /proc/meminfo | awk '{print $2}')
+  (( swap_total > swap_free )) && {
+    local -l free_swap_human=$(k2h $(( swap_total - swap_free )))
+    MOD+="${P_DEF}${SLB}used_swap${SEP}${P_WARN}${free_swap_human}${P_DEF}${SRB}"
+  } || return 0
+  echo "${MOD}"
+}
+function space_module(){
+  local TARGET="${1:-~}"
+  local LABEL="${2:-home}"
+  local MOD=""
+  local -l free_home_space=$(langc df --output=avail -k ${TARGET} | grep -v Avail | sed 's/^ *//')
+  local -l free_home_space_human=$(k2h ${free_home_space})
+  if (( free_home_space < 128 * 1024  )); then
+    MOD+="${P_DEF}${SLB}${LABEL}${SEP}${P_ERR}${free_home_space_human}${P_DEF}${SRB}"
+  elif (( free_home_space < 1024 * 1024  )); then
+    MOD+="${P_DEF}${SLB}${LABEL}${SEP}${P_WARN}${free_home_space_human}${P_DEF}${SRB}"
+  else
+    MOD+="${P_DEF}${SLB}${LABEL}${SEP}${P_TEXT}${free_home_space_human}${P_DEF}${SRB}"
+  fi
+  echo "${MOD}"
+}
+
+##########################  VAGRANT  #######################################
+
+function vagrant_module(){
+  local MOD=""
+  local pwd=$(realpath .)
+  while [[ "${pwd}" != "/" ]]
+  do
+    [[ -f "${pwd}"/Vagrantfile && -d "${pwd}"/.vagrant ]] && {
+      MOD="${P_DEF}${SLB}vagrant${SEP}${P_TEXT}on${P_DEF}${SRB}"
+      # echo $(parse_code "${MOD}")
+      echo "${MOD}"
+    }
+    pwd=$(dirname "${pwd}")
+  done
+  return 0
+}
+
+##########################  UGO  #######################################
+function ugo_module(){ [[ -w . ]] || echo "${P_DEF}${SLB}access${SEP}${P_TEXT}ro${P_DEF}${SRB}"; }
+##############################  ACL ############################################
+function acl_module(){
+  ls -ld . | cut -d' ' -f1 | grep -q '\+$' \
+    && echo "${P_DEF}${SLB}acl${SEP}${P_TEXT}on${P_DEF}${SRB}"
+}
+############################  REALPATH   #######################################
+function realpath_module(){
+  [[ "$(realpath .)" != "${PWD}" ]] \
+    && echo "${P_DEF}${SLB}path${SEP}${P_TEXT}linked${P_DEF}${SRB}"
+}
+
+return 0

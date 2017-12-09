@@ -1,0 +1,15 @@
+# vi:syntax=sh
+
+[[ ${_} != ${0} ]] && {
+  export SOURCEDIR="$(dirname ${BASH_SOURCE})"
+} || {
+  export SOURCEDIR=~/.env
+}
+
+export PATH=${PATH}:${SOURCEDIR}/sbin:${SOURCEDIR}/bin
+
+[[ -f ${SOURCEDIR}/.bash_colors  ]] && source ${SOURCEDIR}/.bash_colors  || :
+[[ -f ${SOURCEDIR}/.bash_custom  ]] && source ${SOURCEDIR}/.bash_custom  || :
+[[ -f ${SOURCEDIR}/.bash_prompt  ]] && source ${SOURCEDIR}/.bash_prompt  || :
+
+return 0

@@ -1,0 +1,8 @@
+termcapinfo xterm* ti@:te@
+autodetach on 
+startup_message off 
+hardstatus alwayslastline 
+defscrollback 10000
+# shelltitle 'bash'
+vbell off
+hardstatus string '%{gk}[%{wk}%?%-Lw%?%{=b kR}(%{W}%n*%f %t%?(%u)%?%{=b kR})%{= w}%?%+Lw%?%?%= %{g}][%{w}%l%{g}][%{= w}%Y-%m-%d %0C%{g}]%{W}'

@@ -1,0 +1,151 @@
+# vi:syntax=sh
+
+[[ ${-} == *i* ]] || return 0
+
+[[ ${_} != ${0} ]] && {
+  export SOURCEDIR="$(dirname ${BASH_SOURCE})"
+} || {
+  export SOURCEDIR=~/.env
+}
+
+# default editor
+export FCEDIT=vim
+export EDITOR=vim
+export VISUAL=vim
+
+# history
+export HISTCONTROL=ignoreboth
+export HISTSIZE=10000
+export HISTFILESIZE=${HISTSIZE}
+shopt -s histappend
+export PROMPT_COMMAND="history -a; history -n"
+
+# vagrant
+export VAGRANT_DEFAULT_PROVIDER=virtualbox
+
+# bash
+shopt -s checkwinsize
+shopt -s autocd
+## turn off flow control: Ctrl-S/Ctrl-Q
+stty -ixon
+
+# aliases
+alias ls="LC_COLLATE=C ls"
+alias cm="clean_mem.sh"
+alias vi=vim
+alias vim="vim -u       ${SOURCEDIR}/.vimrc"
+alias tmux="tmux -f     ${SOURCEDIR}/.tmux.conf"
+alias screen="screen -c ${SOURCEDIR}/.screenrc"
+
+# less
+export LESS="-REXF"
+
+function langc(){
+  eval LANG=C LC_ALL=C "$@"
+}
+
+function b2h(){
+  # bites to human readable format
+  # langc numfmt --to=iec --format "%.1f" ${1:-0} \
+  langc numfmt --to=iec --format "%f" ${1:-0} \
+    | sed 's/\.0//' \
+    | tr '[:upper:]' '[:lower:]' \
+    | awk '{if ($1 ~ /\.[0-9]k$/){
+              printf("%dk\n", gensub(/k$/, "", "g", $1) + 0.5)
+            }else{
+              print
+           }}' \
+    | awk '{if ($1 ~ /\.[0-9]m$/){
+              printf("%dm\n", gensub(/m$/, "", "g", $1) + 0.5)
+            }else{
+              print
+           }}'
+}
+
+function k2h(){
+  # kbites to human readable format
+  b2h $(( ${1:-0} * 1024 ))
+}
+
+function s2h(){
+  # seconds to human readable format
+  local -i T=${1:-0} D H M S
+  local -l RET=""
+  (( T == 0 )) && return 0
+  (( D=T/60/60/24, H=T/60/60%24, M=T/60%60, S=T%60 ))
+  (( D > 0 )) && RET="${RET}${D}d "
+  (( H > 0 )) && RET="${RET}${H}h "
+  (( M > 0 )) && RET="${RET}${M}m "
+  (( S > 0 )) && RET="${RET}${S}s "
+  echo ${RET}
+}
+
+declare -xf langc b2h k2h s2h
+
+unalias ll &> /dev/null || :
+function ll(){
+  # LC_COLLATE=C ls -lah --color "$@" | less
+  {
+    (( $# == 0 )) && ls -dUl --color -- .* * || {
+      # non folders first
+      for arg
+      do
+        [[ -d "${arg}" ]] && continue
+        [[ -e "${arg}" ]] || {
+          echo File "${arg}" unavailable
+          continue
+        }
+        ls -Ul --color -- "${arg}"
+      done
+      # folder now
+      for arg
+      do
+        [[ ! -d "${arg}" ]] && continue
+        [[ -r "${arg}" && -x "${arg}" ]] || {
+          echo Folder "${arg}" unavailable
+          continue
+        }
+        echo "${arg}:"
+        cd "${arg}"
+        ls -dUl --color -- .* *
+        cd - > /dev/null
+      done
+    }
+  } | less
+}
+
+function lll(){
+  # LC_COLLATE=C ls -lah --color "$@" | less
+  {
+    (( $# == 0 )) && ls -dUl --color -- * || {
+      # non folders first
+      for arg
+      do
+        [[ -d "${arg}" ]] && continue
+        [[ -e "${arg}" ]] || {
+          echo File "${arg}" unavailable
+          continue
+        }
+        ls -Ul --color -- "${arg}"
+      done
+      # folder now
+      for arg
+      do
+        [[ ! -d "${arg}" ]] && continue
+        [[ -r "${arg}" && -x "${arg}" ]] || {
+          echo Folder "${arg}" unavailable
+          continue
+        }
+        echo "${arg}:"
+        cd "${arg}"
+        ls -dUl --color -- *
+        cd - > /dev/null
+      done
+    }
+  } | less
+}
+
+[[ -f "${SOURCEDIR}/.bash_private" ]] && source "${SOURCEDIR}/.bash_private"
+[[ -f "~/.bash_private" ]] && source "~/.bash_private"
+
+return 0
