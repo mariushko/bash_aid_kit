@@ -16,10 +16,10 @@ $ ./git-file-wget-all
 ```
 $ cd console_aid_kit
 $ source .bash_main
-┌─[~/GIT/console_aid_kit]                                               [ram=4.6g home=88g]
+┌─[~/GIT/console_aid_kit]                                              [ram=4.6g home=88g]
 │ [git: git@bitbucket.org:mariushko/console_aid_kit.git (master * u=)]
 └─[user@host]$ cd /sys/class/power_supply/BAT0
-┌─[/sys/class/power_supply/BAT0][access=ro path=linked]                 [ram=4.6g home=88g]
+┌─[/sys/class/power_supply/BAT0][access=ro path=linked]                [ram=4.6g home=88g]
 └─[user@host]$ cd ~/GIT/console_aid_kit
 ```
 or
@@ -58,7 +58,7 @@ $ echo "source /path/to/console_aid_kit.git/.bash_main" >> ~/.bashrc
 BASH prompt example:
 
 ```
-┌─[~/GIT/console_aid_kit]                          [dc=98% ram=1.7g home=39.8g]
+┌─[~/GIT/console_aid_kit]                                     [dc=98% ram=1.7g home=39.8g]
 │ [git: bitbucket.org:mariushko/console_aid_kit.git (master u=)]
 └─[mb@x201]$
 ```
