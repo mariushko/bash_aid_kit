@@ -26,7 +26,11 @@ export GIT_PS1=""
     local REMOTE=$(git remote 2> /dev/null)
     local REMOTEURL
     [[ "${REMOTE}" ]] && {
-      REMOTEURL=$(git remote get-url ${REMOTE} 2> /dev/null | sed 's#^.*://##' | sed 's#^.*@##')
+      # REMOTEURL=$(git remote get-url ${REMOTE} 2> /dev/null | sed 's#^.*://##' | sed 's#^.*@##')
+      REMOTEURL=$(
+        git remote -v | grep "^${REMOTE}" | grep "\(push\)" | awk '{print $2}' 2> /dev/null \
+        | sed 's#^.*://##' | sed 's#^.*@##'
+      )
     } || REMOTEURL=local
     echo -en "${REMOTEURL} (${P_TEXT}${BRANCH}${P_DEF})"
   }
