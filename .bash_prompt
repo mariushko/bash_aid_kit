@@ -115,6 +115,7 @@ function set_prompt(){
   PS1=
   local PS1_RIGHT=""
   local PS1_LEFT=""
+  local PS1_MID=""
 
   PS1+="${P_DEF}┌─"
   # pwd
@@ -152,7 +153,6 @@ function set_prompt(){
     ram_module \
     swap_module \
     "space_module ~/ home"
-#     "space_module / root"
   do
     PS=$(${name})
     PS1_RIGHT+="${PS:+${MSEP}}${PS}"
@@ -185,14 +185,28 @@ function set_prompt(){
   [[ ${GIT_PS1} ]] && {
     local ret=$(${GIT_PS1})
     [[ ${ret} ]] && {
-      PS1+="${P_DEF}│ ${MLB}git: ${ret}${MRB}\n"
+      PS1_MID="${P_DEF}│ ${MLB}git: ${ret}${MRB}"
+      jump=$(strip_code "${PS1_MID}")
+      (( COLUMNS >= ${#jump} )) || {
+        local url stat
+        read -r url stat <<< "${ret}"
+        PS1_MID="${P_DEF}│ ${MLB}git: ${stat}${MRB}"
+      }
+      PS1+="${PS1_MID}\n"
     }
   }
   # svn
   [[ ${SVN_PS1} ]] && {
     local ret=$(${SVN_PS1})
     [[ ${ret} ]] && {
-      PS1+="${P_DEF}│ ${MLB}svn: ${ret}${MRB}\n"
+      PS1_MID="${P_DEF}│ ${MLB}svn: ${ret}${MRB}"
+      jump=$(strip_code "${PS1_MID}")
+      (( COLUMNS >= ${#jump} )) || {
+        local url stat
+        read -r url stat <<< "${ret}"
+        PS1_MID="${P_DEF}│ ${MLB}svn: ${stat}${MRB}"
+      }
+      PS1+="${PS1_MID}\n"
     }
   }
   ###
