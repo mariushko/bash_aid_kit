@@ -222,15 +222,17 @@ function set_prompt(){
     PS1+="${P_DEF}${MLB}${P_ALARM}sudo su <= really?${P_DEF}${MRB}"
   }
   # exit status
-  # PS1+="${P_DEF}${MLB}"
   PS1+="${P_EXIT}\$(RC=\${__cmdnbary[\#]-\$?}; print_exitstatus \$RC)\${__cmdnbary[\#]=}"
-  # PS1+="${P_DEF}${MRB}"
   # the end of prompt
   (( $(id -u) == 0 )) && PS1+="${P_BWHITE}#" || PS1+="${P_BWHITE}\$"
   PS1+="${P_RESET} "
   # exporting
   export PS1
 }
+
+# last chance to do some your own tweeks
+[[ -f "${SOURCEDIR}/.bash_priv_post" ]] && source "${SOURCEDIR}/.bash_priv_post"
+[[ -f "~/.bash_priv_post" ]] && source "~/.bash_priv_post"
 
 ############## timer
 # trap 'timer_start' DEBUG

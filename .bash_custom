@@ -33,9 +33,15 @@ stty -ixon
 alias ls="LC_COLLATE=C ls"
 alias cm="clean_mem.sh"
 alias vi=vim
-alias vim="vim -u       ${SOURCEDIR}/.vimrc"
-alias tmux="tmux -f     ${SOURCEDIR}/.tmux.conf"
-alias screen="screen -c ${SOURCEDIR}/.screenrc"
+[[ -f ~/.vimrc ]] \
+  && alias vim="vim -u ~/.vimrc" \
+  || alias vim="vim -u ${SOURCEDIR}/.vimrc"
+[[ -f ~/.tmux.conf ]] \
+  && alias alias tmux="tmux -f ~/.tmux.conf" \
+  || alias tmux="tmux -f ${SOURCEDIR}/.tmux.conf"
+[[ -f ~/..screenrc ]] \
+  && alias screen="screen -c ~/.screenrc"
+  || alias screen="screen -c ${SOURCEDIR}/.screenrc"
 
 # less
 export LESS="-REXF"
@@ -145,7 +151,7 @@ function lll(){
   } | less
 }
 
-[[ -f "${SOURCEDIR}/.bash_private" ]] && source "${SOURCEDIR}/.bash_private"
-[[ -f "~/.bash_private" ]] && source "~/.bash_private"
+[[ -f "${SOURCEDIR}/.bash_priv_pre" ]] && source "${SOURCEDIR}/.bash_priv_pre"
+[[ -f "~/.bash_priv_pre" ]] && source "~/.bash_priv_pre"
 
 return 0
