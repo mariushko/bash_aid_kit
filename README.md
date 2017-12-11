@@ -1,8 +1,9 @@
 # console_aid_kit
 
 ## Main goal
-** Simple zero configuration** bash environment for linux admins/developers.
-**BASH** (functions, aliases, **prompt**), **GIT** config, **tmux** config and **vim** config and many others software technologies inside.
+First goal is to provide a **simple zero configuration bash environment** for linux users.
+Second goal is **sharing this configuration with root** on desktop machine.
+Configuration files for **BASH** (functions, aliases, **prompt**), **GIT**, **tmux**, **vim** and others software technologies inside.
 
 ## Download the code
 
@@ -32,7 +33,11 @@ vagrant$ cd /vagrant
 
 ## I want to use it forever
 ```
-$ echo "source /path/to/console_aid_kit.git/.bash_main" >> ~/.bashrc
+[user@host]$ echo "source /path/to/console_aid_kit.git/.bash_main" >> ~/.bashrc
+```
+maybe even:
+```
+[root@host]# echo "source /path/to/the/same/as/above/.bash_main" >> ~/.bashrc
 ```
 
 ## Files
@@ -64,15 +69,22 @@ BASH prompt example:
 ```
 ## Features
 
-- BASH prompt with GIT and SVN support
+- BASH prompt indicators:
+  - GIT and SVN support
+  - Vagrant awareness
+  - free RAM and SWAP memory
+  - free space on ~/
+  - error return code of previous command
+  - battery status
+  - trivial network monitoring
+  - read only folder
+  - acl set
+  - linked folder
 - GIT aliases (tested on git 2.15.1)
-- free RAM and SWAP memory indicator
-- free ~/ space indicator
-- error exit status (return code) indicator
-- battery indicator
-- trivial network monitoring
+- BASH functions, aliases and scripts
 
 and many others
+> **Your own config files have always the highest priority**.
 
 ## Not tested on animals
 
