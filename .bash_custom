@@ -39,7 +39,7 @@ alias vi=vim
 [[ -f ~/.tmux.conf ]] \
   && alias alias tmux="tmux -f ~/.tmux.conf" \
   || alias tmux="tmux -f ${SOURCEDIR}/.tmux.conf"
-[[ -f ~/..screenrc ]] \
+[[ -f ~/.screenrc ]] \
   && alias screen="screen -c ~/.screenrc" \
   || alias screen="screen -c ${SOURCEDIR}/.screenrc"
 

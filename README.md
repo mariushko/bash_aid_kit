@@ -80,10 +80,24 @@ BASH prompt example:
   - read only folder
   - acl set
   - linked folder
+- turned off terminal flow control (Ctrl-S and Ctrl-Q are back!!!)
 - GIT aliases (tested on git 2.15.1)
 - BASH functions, aliases and scripts
+- VIM configuration:
+  - "code school" color scheme
+  - 80th column indicator
+  - trailing whitespaces indicator
+  - tabs indicator
+  - vim-plug manager:
+    - supertab
+    - nerdtree
+    - markdown-preview
+  - shortcuts:
+    - delete all trailing whitespaces
+    - replace all tab characters by spaces
 
 and many others
+
 > **Your own config files have always the highest priority**.
 
 ## Not tested on animals
@@ -95,6 +109,6 @@ Tested on:
 
 Relax, it should run on most of linux distos.
 
-## to do
+## To do
 
 - downgrade .gitconfig aliases from 2.15 to 1.8 for CentOS 7 sake...
