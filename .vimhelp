@@ -6,5 +6,4 @@ Shortcuts:
 <F7>  DELETE all trailing white characters
 <F8>  REPLACE all tab characters by spaces
 <F9>  toggle NERDtree
-<F11> Start Markdown Preview
-<F12> Stop Markdown Preview
+<F12> Toggle Markdown Preview

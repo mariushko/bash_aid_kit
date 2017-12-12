@@ -9,7 +9,7 @@ let help_mode = 'on'
 function HelpToggle()
   if g:help_mode == 'on'
     let g:help_mode = 'off'
-    execute ":10split " . g:help_file
+    execute ":9split " . g:help_file
   else
     let g:help_mode = 'on'
     execute ":bdelete " . g:help_file
@@ -191,10 +191,20 @@ Plug 'ervandew/supertab'
 "  endif
 Plug 'iamcco/markdown-preview.vim'
 if ! empty(glob('~/.vim/vim-plug/markdown-preview.vim/plugin/mkdp.vim'))
-  nmap <silent> <F11> <Plug>MarkdownPreview        " for normal mode
-  imap <silent> <F11> <Plug>MarkdownPreview        " for insert mode
-  nmap <silent> <F12> <Plug>StopMarkdownPreview    " for normal mode
-  imap <silent> <F12> <Plug>StopMarkdownPreview    " for insert mode
+  let MarkdownPreview_mode = 'off'
+  function MarkdownPreviewToggle()
+    if g:MarkdownPreview_mode == 'off'
+      let g:MarkdownPreview_mode = 'on'
+      execute "normal \<Plug>MarkdownPreview"
+      echom 'MarkdownPreview is ON'
+    else
+      let g:MarkdownPreview_mode = 'off'
+      execute "normal \<Plug>StopMarkdownPreview"
+      echom 'MarkdownPreview is OFF'
+    endif
+  endfunction
+  nmap <F12> mz:execute MarkdownPreviewToggle()<CR>'z
+  imap <F12> <Esc>mz:execute MarkdownPreviewToggle()<CR>'z
 endif
 Plug 'scrooloose/nerdtree'
 if ! empty(glob('~/.vim/vim-plug/nerdtree/autoload/nerdtree.vim'))
