@@ -9,9 +9,7 @@
 
 ###########################  GIT  #######################################
 # https://raw.github.com/git/git/master/contrib/completion/git-prompt.sh
-# https://raw.github.com/git/git/master/contrib/completion/git-completion.bash
 
-[[ -f "${SOURCEDIR}"/.git-completion.sh ]] && source "${SOURCEDIR}"/.git-completion.sh
 export GIT_PS1=""
 [[ -f "${SOURCEDIR}"/.git-prompt.sh ]] && {
   export GIT_PS1_SHOWUNTRACKEDFILES=1

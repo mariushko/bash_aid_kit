@@ -1,7 +1,6 @@
 *~
 *.swp
 .vagrant
-.git-completion.sh
 .git-prompt.sh
 .svn-prompt.sh
 sbin/git-test-script
