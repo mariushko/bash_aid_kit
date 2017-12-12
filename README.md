@@ -42,7 +42,7 @@ maybe even:
 
 ## Files
 
-| Plik/Katalog        | Opis
+| File/Folder         | Describtion
 | ------------------  | ---------------------------------------- |
 | **.bash_main**      | main file, you should "source" it
 | .bash_custom        | BASH custom config file
