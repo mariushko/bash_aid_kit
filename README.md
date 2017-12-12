@@ -91,6 +91,10 @@ and many others
 Tested on:
 
 - Arch Linux - best distro ever
-- Centos 7.3+ - enterprise distro
+- CentOS 7.3+ - enterprise distro
 
 Relax, it should run on most of linux distos.
+
+## to do
+
+- downgrade .gitconfig aliases from 2.15 to 1.8 for CentOS 7 sake...
