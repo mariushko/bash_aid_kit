@@ -3,7 +3,7 @@
 ## Main goal
 First goal is to provide a **simple zero configuration bash environment** for linux users.
 Second goal is **sharing this configuration with root** on desktop machine.
-Configuration files for **BASH** (functions, aliases, **prompt**), **GIT**, **tmux**, **vim** and others software technologies inside.
+**BASH** (functions, aliases, **prompt**), **GIT**, **tmux**, **vim**, **reveal.js** and others software inside.
 
 ## Download the code
 
@@ -83,18 +83,30 @@ BASH prompt example:
 - turned off terminal flow control (Ctrl-S and Ctrl-Q are back!!!)
 - GIT aliases (tested on git 2.15.1)
 - BASH functions, aliases and scripts
+  - ```ll``` - cool folder listing
+  - ```cm``` - clean memory
 - VIM configuration:
   - "code school" color scheme
   - 80th column indicator
   - trailing whitespaces indicator
   - tabs indicator
   - vim-plug manager:
-    - supertab
-    - nerdtree
-    - markdown-preview
+    - supertab ```TAB```
+    - nerdtree ```<F9>```
+    - markdown-preview ```<F12>```
   - shortcuts:
-    - delete all trailing whitespaces
-    - replace all tab characters by spaces
+    - delete all trailing whitespaces ```<F7>```
+    - replace all tab characters by spaces ```<F8>```
+- reveal.js container to present slides directly from markdown file
+  - bash functions:
+    - ```slides_on``` to run reveal.js container
+    - ```slides_off``` to turn off container
+  - you need only markdown to make slides
+    - every header in markdown is a new slide
+    - predefined separators:
+      - ```<!---->``` - new slide
+      - ```<!-- ** -->``` - vertical separator
+      - ```<!-- Note: -->``` - presenter note
 
 and many others
 

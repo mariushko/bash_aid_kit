@@ -43,6 +43,37 @@ alias vi=vim
   && alias screen="screen -c ~/.screenrc" \
   || alias screen="screen -c ${SOURCEDIR}/.screenrc"
 
+# reveal.fs slides
+# your markdown file name has to be: index.md
+which docker &> /dev/null && {
+  function slides_off(){
+    docker rm -f revealjs &> /dev/null || true
+  }
+  function slides_on(){
+    local path=${1:-.}
+    [[ -f "${path}/index.md" && -r "${path}/index.md" ]] || {
+      echo No access to "${path}/index.md" file
+      echo Wrong path?
+      echo Gimme path to folder where index.md file is
+      return 1
+    }
+    slides_off
+    docker images --format '{{.Repository}}:{{.Tag}}' | grep -q 'mariushko/revealjs:latest' || {
+      cd "${SOURCEDIR}/reveal.js/"
+      ./build.sh
+      cd -
+    }
+    docker run --name revealjs -d -p 8000:8000 -p 35729:35729 \
+    -v "$(realpath "${path}")":/revealjs/slides:ro \
+    mariushko/revealjs:latest > /dev/null && {
+      echo Container started
+      echo "Visit: http//127.0.0.1:8000"
+    } || {
+      echo I can not run container properly
+      return 2
+    }
+  }
+}
 # less
 export LESS="-REXF"
 
@@ -92,7 +123,9 @@ unalias ll &> /dev/null || :
 function ll(){
   # LC_COLLATE=C ls -lah --color "$@" | less
   {
-    (( $# == 0 )) && ls -dUl --color -- .* * || {
+    (( $# == 0 )) && {
+      [[ "$(ls -1)" ]] && ls -dUlh --color -- .* * || ls -dUlh --color -- .*
+    } || {
       # non folders first
       for arg
       do
@@ -113,38 +146,7 @@ function ll(){
         }
         echo "${arg}:"
         cd "${arg}"
-        ls -dUl --color -- .* *
-        cd - > /dev/null
-      done
-    }
-  } | less
-}
-
-function lll(){
-  # LC_COLLATE=C ls -lah --color "$@" | less
-  {
-    (( $# == 0 )) && ls -dUl --color -- * || {
-      # non folders first
-      for arg
-      do
-        [[ -d "${arg}" ]] && continue
-        [[ -e "${arg}" ]] || {
-          echo File "${arg}" unavailable
-          continue
-        }
-        ls -Ul --color -- "${arg}"
-      done
-      # folder now
-      for arg
-      do
-        [[ ! -d "${arg}" ]] && continue
-        [[ -r "${arg}" && -x "${arg}" ]] || {
-          echo Folder "${arg}" unavailable
-          continue
-        }
-        echo "${arg}:"
-        cd "${arg}"
-        ls -dUl --color -- *
+        [[ "$(ls -1)" ]] && ls -dUlh --color -- .* * || ls -dUlh --color -- .*
         cd - > /dev/null
       done
     }
