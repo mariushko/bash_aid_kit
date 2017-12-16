@@ -78,22 +78,19 @@ BASH prompt example:
 ## Features
 
 - BASH prompt indicators:
-
-  - GIT and SVN support
-  - Vagrant awareness
-  - free RAM and SWAP memory
-  - free space on ~/
-  - error return code of previous command
-  - battery status
-  - trivial network monitoring
-  - read only folder
-  - acl set
-  - linked folder
-
+    - GIT and SVN support
+    - Vagrant awareness
+    - free RAM and SWAP memory
+    - free space on ~/
+    - error return code of previous command
+    - battery status
+    - trivial network monitoring
+    - read only folder
+    - acl set
+    - linked folder
 - turned off terminal flow control (Ctrl-S and Ctrl-Q are back!!!)
 - GIT aliases (tested on git 2.15.1)
 - BASH functions, aliases and scripts
-
   - ```ll``` - cool folder listing
   - ```cm``` - clean memory
   - ```vim-plug-update``` - update vim plugin manager and all plugins
