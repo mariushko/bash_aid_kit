@@ -2,16 +2,16 @@
 
 ## The Main goal
 The main goal is to provide a **simple zero configuration bash environment** for linux users.
-Provides **comfortable bash user expirience** and **markdown** support for making documentation and **slides**.
+Also provides **comfortable bash user expirience** and **markdown** support for making documentation and **slides** much easier.
 
 Inside:
 
 - **BASH** (functions, aliases, **prompt**)
 - **GIT** (config, [prompt](https://github.com/git/git/blob/master/contrib/completion/git-prompt.sh))
 - **SVN** ([prompt](https://github.com/mcandre/svn-prompt))
-- **tmux** ([config](http://www.hamvocke.com/blog/a-guide-to-customizing-your-tmux-conf))
-- **vim** ([vim-plug](https://github.com/junegunn/vim-plug))
-- **[reveal.js](https://github.com/hakimel/reveal.js/)** ([docker container](https://github.com/amouat/revealjs-docker))
+- **TMUX** ([config](http://www.hamvocke.com/blog/a-guide-to-customizing-your-tmux-conf))
+- **VIM** ([vim-plug](https://github.com/junegunn/vim-plug))
+- **[REVEAL.js](https://github.com/hakimel/reveal.js/)** ([docker container](https://github.com/amouat/revealjs-docker))
 
 ## Download the code
 
@@ -36,16 +36,13 @@ or
 $ cd console_aid_kit/test
 $ vagrant up
 $ vagrant ssh
+vagrant$ vim-plug-update
 vagrant$ cd /vagrant
 ```
 
 ## I want to use it forever
 ```
 [user@host]$ echo "source /path/to/console_aid_kit.git/.bash_main" >> ~/.bashrc
-```
-maybe even:
-```
-[root@host]# echo "source /path/to/the/same/as/above/.bash_main" >> ~/.bashrc
 ```
 
 ## Files
@@ -86,7 +83,7 @@ BASH prompt example:
     - battery status
     - trivial network monitoring
     - read only folder
-    - acl set
+    - acl
     - linked folder
 - turned off terminal flow control (Ctrl-S and Ctrl-Q are back!!!)
 - GIT aliases (tested on git 2.15.1)
@@ -95,14 +92,14 @@ BASH prompt example:
     - ```cm``` - clean memory
     - ```vim-plug-update``` - update vim plugin manager and all plugins
 - VIM configuration:
-    - "code school" color scheme
+    - [code school](http://astonj.com/tech/vim-for-ruby-rails-and-a-sexy-theme/) color scheme
     - 80th column indicator
     - trailing whitespaces indicator
     - tabs indicator
-    - vim-plug manager:
-        - supertab ```TAB```
-        - nerdtree ```<F9>```
-        - markdown-preview ```<F12>```
+    - [vim-plug](https://github.com/junegunn/vim-plug) manager:
+        - [supertab](https://github.com/ervandew/supertab) ```TAB```
+        - [nerdtree](https://github.com/scrooloose/nerdtree) ```<F9>```
+        - [markdown-preview](https://github.com/iamcco/markdown-preview.vim) ```<F12>```
     - shortcuts:
         - delete all trailing whitespaces ```<F7>```
         - replace all tab characters by spaces ```<F8>```
@@ -112,10 +109,10 @@ BASH prompt example:
         - ```slides-off``` to turn off container
     - you need only markdown to make slides
         - every header in markdown is a new slide
-    - predefined separators:
-        - ```<!---->``` - new (horizontal) slide
-        - ```<!--vert-->``` - new vertical slide
-        - ```<!--note-->``` - presenter note
+        - predefined separators:
+            - ```<!---->``` - new (horizontal) slide
+            - ```<!--vert-->``` - new vertical slide
+            - ```<!--note-->``` - presenter note
 
 and many others
 
