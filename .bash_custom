@@ -8,11 +8,6 @@
   export SOURCEDIR=~/.env
 }
 
-# default editor
-export FCEDIT=vim
-export EDITOR=vim
-export VISUAL=vim
-
 # history
 export HISTCONTROL=ignoreboth
 export HISTSIZE=10000
@@ -29,13 +24,20 @@ shopt -s autocd
 ## turn off flow control: Ctrl-S/Ctrl-Q
 stty -ixon
 
-# aliases
 alias ls="LC_COLLATE=C ls"
 alias cm="clean_mem.sh"
-alias vi=vim
-[[ -f ~/.vimrc ]] \
-  && alias vim="vim -u ~/.vimrc" \
-  || alias vim="vim -u ${SOURCEDIR}/.vimrc"
+which vim &> /dev/null && {
+  alias vi=vim
+  # default editor
+  export FCEDIT=vim
+  export EDITOR=vim
+  export VISUAL=vim
+
+  [[ -f ~/.vimrc ]] && alias vim="vim -u ~/.vimrc" || {
+    alias vim="vim -u ${SOURCEDIR}/.vimrc"
+    alias vim-plug-update="vim +PlugUpgrade +PlugUpdate +qa!"
+  }
+}
 [[ -f ~/.tmux.conf ]] \
   && alias alias tmux="tmux -f ~/.tmux.conf" \
   || alias tmux="tmux -f ${SOURCEDIR}/.tmux.conf"
