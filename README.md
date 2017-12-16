@@ -5,6 +5,7 @@ The main goal is to provide a **simple zero configuration bash environment** for
 Provides **comfortable bash user expirience** and **markdown** support for making documentation and **slides**.
 
 Inside:
+
 - **BASH** (functions, aliases, **prompt**)
 - **GIT** (config, [prompt](https://github.com/git/git/blob/master/contrib/completion/git-prompt.sh))
 - **SVN** ([prompt](https://github.com/mcandre/svn-prompt))
