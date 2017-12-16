@@ -1,6 +1,6 @@
 # console_aid_kit
 
-## Main goal
+## The Main goal
 The main goal is to provide a **simple zero configuration bash environment** for linux users.
 Provides **comfortable bash user expirience** and **markdown** support for making documentation and **slides**.
 
@@ -78,6 +78,7 @@ BASH prompt example:
 ## Features
 
 - BASH prompt indicators:
+
   - GIT and SVN support
   - Vagrant awareness
   - free RAM and SWAP memory
@@ -88,12 +89,15 @@ BASH prompt example:
   - read only folder
   - acl set
   - linked folder
+
 - turned off terminal flow control (Ctrl-S and Ctrl-Q are back!!!)
 - GIT aliases (tested on git 2.15.1)
 - BASH functions, aliases and scripts
+
   - ```ll``` - cool folder listing
   - ```cm``` - clean memory
   - ```vim-plug-update``` - update vim plugin manager and all plugins
+
 - VIM configuration:
   - "code school" color scheme
   - 80th column indicator
