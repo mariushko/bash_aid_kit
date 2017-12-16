@@ -91,32 +91,31 @@ BASH prompt example:
 - turned off terminal flow control (Ctrl-S and Ctrl-Q are back!!!)
 - GIT aliases (tested on git 2.15.1)
 - BASH functions, aliases and scripts
-  - ```ll``` - cool folder listing
-  - ```cm``` - clean memory
-  - ```vim-plug-update``` - update vim plugin manager and all plugins
-
+    - ```ll``` - cool folder listing
+    - ```cm``` - clean memory
+    - ```vim-plug-update``` - update vim plugin manager and all plugins
 - VIM configuration:
-  - "code school" color scheme
-  - 80th column indicator
-  - trailing whitespaces indicator
-  - tabs indicator
-  - vim-plug manager:
-    - supertab ```TAB```
-    - nerdtree ```<F9>```
-    - markdown-preview ```<F12>```
-  - shortcuts:
-    - delete all trailing whitespaces ```<F7>```
-    - replace all tab characters by spaces ```<F8>```
+    - "code school" color scheme
+    - 80th column indicator
+    - trailing whitespaces indicator
+    - tabs indicator
+    - vim-plug manager:
+        - supertab ```TAB```
+        - nerdtree ```<F9>```
+        - markdown-preview ```<F12>```
+    - shortcuts:
+        - delete all trailing whitespaces ```<F7>```
+        - replace all tab characters by spaces ```<F8>```
 - reveal.js docker container to present slides directly from markdown file
-  - bash functions:
-    - ```slides-on``` to run reveal.js container
-    - ```slides-off``` to turn off container
-  - you need only markdown to make slides
-    - every header in markdown is a new slide
+    - bash functions:
+        - ```slides-on``` to run reveal.js container
+        - ```slides-off``` to turn off container
+    - you need only markdown to make slides
+        - every header in markdown is a new slide
     - predefined separators:
-      - ```<!---->``` - new (horizontal) slide
-      - ```<!--vert-->``` - new vertical slide
-      - ```<!--note-->``` - presenter note
+        - ```<!---->``` - new (horizontal) slide
+        - ```<!--vert-->``` - new vertical slide
+        - ```<!--note-->``` - presenter note
 
 and many others
 
