@@ -11,6 +11,7 @@ Second goal is **sharing this configuration with root** on desktop machine.
 $ git clone git@bitbucket.org:mariushko/console_aid_kit.git
 $ cd console_aid_kit/sbin
 $ ./git-file-wget-all
+$ vim-plug-update
 ```
 ## Testing
 
@@ -85,6 +86,7 @@ BASH prompt example:
 - BASH functions, aliases and scripts
   - ```ll``` - cool folder listing
   - ```cm``` - clean memory
+  - ```vim-plug-update``` - update vim plugin manager and all plugins
 - VIM configuration:
   - "code school" color scheme
   - 80th column indicator
@@ -97,16 +99,16 @@ BASH prompt example:
   - shortcuts:
     - delete all trailing whitespaces ```<F7>```
     - replace all tab characters by spaces ```<F8>```
-- reveal.js container to present slides directly from markdown file
+- reveal.js docker container to present slides directly from markdown file
   - bash functions:
-    - ```slides_on``` to run reveal.js container
-    - ```slides_off``` to turn off container
+    - ```slides-on``` to run reveal.js container
+    - ```slides-off``` to turn off container
   - you need only markdown to make slides
     - every header in markdown is a new slide
     - predefined separators:
-      - ```<!---->``` - new slide
-      - ```<!-- ** -->``` - vertical separator
-      - ```<!-- Note: -->``` - presenter note
+      - ```<!---->``` - new (horizontal) slide
+      - ```<!--vert-->``` - new vertical slide
+      - ```<!--note-->``` - presenter note
 
 and many others
 

@@ -1,4 +1,4 @@
-# Title
+# A Title
 
 ## First slide
 
@@ -20,6 +20,6 @@ First part of slide
 
 Lorem ipsum dolor sit amet, agam delenit theophrastus te vel, impetus detracto postulant ea sea, alii quas reprehendunt vix ex. Pri legere numquam in, ad eius velit eam, perfecto petentium nec ei. No laudem consetetur duo, ei sed porro labitur pertinax.
 
-<!-- ** -->
+<!--vert-->
 Picture:
 ![JavaScript](img/js.png)

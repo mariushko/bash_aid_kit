@@ -48,10 +48,10 @@ which vim &> /dev/null && {
 # reveal.fs slides
 # your markdown file name has to be: index.md
 which docker &> /dev/null && {
-  function slides_off(){
+  function slides-off(){
     docker rm -f revealjs &> /dev/null || true
   }
-  function slides_on(){
+  function slides-on(){
     local path=${1:-.}
     [[ -f "${path}/index.md" && -r "${path}/index.md" ]] || {
       echo No access to "${path}/index.md" file
@@ -59,7 +59,7 @@ which docker &> /dev/null && {
       echo Gimme path to folder where index.md file is
       return 1
     }
-    slides_off
+    slides-off
     docker images --format '{{.Repository}}:{{.Tag}}' | grep -q 'mariushko/revealjs:latest' || {
       cd "${SOURCEDIR}/reveal.js/"
       ./build.sh
