@@ -1,9 +1,16 @@
 # console_aid_kit
 
 ## Main goal
-First goal is to provide a **simple zero configuration bash environment** for linux users.
-Second goal is **sharing this configuration with root** on desktop machine.
-**BASH** (functions, aliases, **prompt**), **GIT**, **tmux**, **vim**, **reveal.js** and others software inside.
+The main goal is to provide a **simple zero configuration bash environment** for linux users.
+Provides **comfortable bash user expirience** and **markdown** support for making documentation and **slides**.
+
+Inside:
+- **BASH** (functions, aliases, **prompt**)
+- **GIT** (config, [prompt](https://github.com/git/git/blob/master/contrib/completion/git-prompt.sh))
+- **SVN** ([prompt](https://github.com/mcandre/svn-prompt))
+- **tmux** ([config](http://www.hamvocke.com/blog/a-guide-to-customizing-your-tmux-conf))
+- **vim** ([vim-plug](https://github.com/junegunn/vim-plug))
+- **[reveal.js](https://github.com/hakimel/reveal.js/)** ([docker container](https://github.com/amouat/revealjs-docker))
 
 ## Download the code
 
@@ -11,7 +18,6 @@ Second goal is **sharing this configuration with root** on desktop machine.
 $ git clone git@bitbucket.org:mariushko/console_aid_kit.git
 $ cd console_aid_kit/sbin
 $ ./git-file-wget-all
-$ vim-plug-update
 ```
 ## Testing
 
@@ -123,6 +129,6 @@ Tested on:
 
 Relax, it should run on most of linux distos.
 
-## To do
+## To Do
 
 - downgrade .gitconfig aliases from 2.15 to 1.8 for CentOS 7 sake...
