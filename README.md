@@ -1,6 +1,6 @@
 # console_aid_kit
 
-## The Main goal
+## The main goal
 The main goal is to provide a **simple zero configuration bash environment** for linux users.
 Also provides **markdown** support for making documentation and **slides** much easier.
 
