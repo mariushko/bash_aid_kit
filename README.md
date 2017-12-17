@@ -2,7 +2,7 @@
 
 ## The Main goal
 The main goal is to provide a **simple zero configuration bash environment** for linux users.
-Also provides **comfortable bash user expirience** and **markdown** support for making documentation and **slides** much easier.
+Also provides **markdown** support for making documentation and **slides** much easier.
 
 Inside:
 
@@ -11,7 +11,13 @@ Inside:
 - **SVN** ([prompt](https://github.com/mcandre/svn-prompt))
 - **TMUX** ([config](http://www.hamvocke.com/blog/a-guide-to-customizing-your-tmux-conf))
 - **VIM** ([vim-plug](https://github.com/junegunn/vim-plug))
-- **[REVEAL.js](https://github.com/hakimel/reveal.js/)** ([docker container](https://github.com/amouat/revealjs-docker))
+- **[reveal.js](https://github.com/hakimel/reveal.js/)** ([docker container](https://github.com/amouat/revealjs-docker))
+
+## Requirements
+
+- BASH :)
+- systemd
+- docker
 
 ## Download the code
 
@@ -123,10 +129,9 @@ and many others
 Tested on:
 
 - Arch Linux - best distro ever
-- CentOS 7.3+ - enterprise distro
 
-Relax, it should run on most of linux distos.
+Relax, it should run on most of modern linux distos.
 
 ## To Do
 
-- downgrade .gitconfig aliases from 2.15 to 1.8 for CentOS 7 sake...
+- downgrade .gitconfig aliases from GIT 2.15 to GIT 1.8 for CentOS 7 sake...
