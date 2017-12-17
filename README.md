@@ -109,7 +109,7 @@ BASH prompt example:
     - shortcuts:
         - delete all trailing whitespaces ```<F7>```
         - replace all tab characters by spaces ```<F8>```
-- TMUX configuration based od ```Ctrl-S``` prefix and great [colors](http://www.hamvocke.com/blog/a-guide-to-customizing-your-tmux-conf)
+- TMUX configuration based on ```Ctrl-S``` prefix and great [colors](http://www.hamvocke.com/blog/a-guide-to-customizing-your-tmux-conf)
 - reveal.js docker container to present slides directly from markdown file
     - bash functions:
         - ```slides-on``` to run reveal.js container
