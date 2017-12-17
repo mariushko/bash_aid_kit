@@ -86,12 +86,12 @@ BASH prompt example:
     - free RAM and SWAP memory
     - free space on ~/
     - error return code of previous command
-    - battery status
+    - battery status (AC/DC)
     - trivial network monitoring
     - read only folder
     - acl
     - linked folder
-- turned off terminal flow control (Ctrl-S and Ctrl-Q are back!!!)
+- turned off terminal flow control (**Ctrl-S** and **Ctrl-Q** are back!!!)
 - GIT aliases (tested on git 2.15.1)
 - BASH functions, aliases and scripts
     - ```ll``` - cool folder listing
@@ -109,6 +109,7 @@ BASH prompt example:
     - shortcuts:
         - delete all trailing whitespaces ```<F7>```
         - replace all tab characters by spaces ```<F8>```
+- TMUX configuration based od ```Ctrl-S``` prefix and great [colors](http://www.hamvocke.com/blog/a-guide-to-customizing-your-tmux-conf)
 - reveal.js docker container to present slides directly from markdown file
     - bash functions:
         - ```slides-on``` to run reveal.js container
