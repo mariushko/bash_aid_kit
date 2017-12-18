@@ -1,4 +1,4 @@
-# console_aid_kit
+# bash_aid_kit
 
 ## The main goal
 The main goal is to provide a **simple zero configuration bash environment** for linux users.
@@ -22,24 +22,24 @@ Inside:
 ## Download the code
 
 ```
-$ git clone git@bitbucket.org:mariushko/console_aid_kit.git
-$ cd console_aid_kit/sbin
+$ git clone git@bitbucket.org:mariushko/bash_aid_kit.git
+$ cd bash_aid_kit/sbin
 $ ./git-file-wget-all
 ```
 ## Testing
 
 ```
-$ cd console_aid_kit
+$ cd bash_aid_kit
 $ source .bash_main
-┌─[~/GIT/console_aid_kit]                                            [ram=4.6g home=88g]
-│ [git: git@bitbucket.org:mariushko/console_aid_kit.git (master * u=)]
+┌─[~/GIT/bash_aid_kit]                                            [ram=4.6g home=88g]
+│ [git: git@bitbucket.org:mariushko/bash_aid_kit.git (master * u=)]
 └─[user@host]$ cd /sys/class/power_supply/BAT0
 ┌─[/sys/class/power_supply/BAT0][access=ro path=linked]              [ram=4.6g home=88g]
-└─[user@host]$ cd ~/GIT/console_aid_kit
+└─[user@host]$ cd ~/GIT/bash_aid_kit
 ```
 or
 ```
-$ cd console_aid_kit/test
+$ cd bash_aid_kit/test
 $ vagrant up
 $ vagrant ssh
 vagrant$ vim-plug-update
@@ -48,7 +48,7 @@ vagrant$ cd /vagrant
 
 ## I want to use it forever
 ```
-[user@host]$ echo "source /path/to/console_aid_kit.git/.bash_main" >> ~/.bashrc
+[user@host]$ echo "source /path/to/bash_aid_kit.git/.bash_main" >> ~/.bashrc
 ```
 
 ## Files
@@ -74,8 +74,8 @@ vagrant$ cd /vagrant
 BASH prompt example:
 
 ```
-┌─[~/GIT/console_aid_kit]                                     [dc=98% ram=4.6g home=88g]
-│ [git: bitbucket.org:mariushko/console_aid_kit.git (master u=)]
+┌─[~/GIT/bash_aid_kit]                                     [dc=98% ram=4.6g home=88g]
+│ [git: bitbucket.org:mariushko/bash_aid_kit.git (master u=)]
 └─[user@host]$
 ```
 ## Features
