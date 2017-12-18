@@ -31,7 +31,7 @@ $ ./git-file-wget-all
 ```
 $ cd bash_aid_kit
 $ source .bash_main
-┌─[~/GIT/bash_aid_kit]                                            [ram=4.6g home=88g]
+┌─[~/GIT/bash_aid_kit]                                               [ram=4.6g home=88g]
 │ [git: git@bitbucket.org:mariushko/bash_aid_kit.git (master * u=)]
 └─[user@host]$ cd /sys/class/power_supply/BAT0
 ┌─[/sys/class/power_supply/BAT0][access=ro path=linked]              [ram=4.6g home=88g]
@@ -74,7 +74,7 @@ vagrant$ cd /vagrant
 BASH prompt example:
 
 ```
-┌─[~/GIT/bash_aid_kit]                                     [dc=98% ram=4.6g home=88g]
+┌─[~/GIT/bash_aid_kit]                                        [dc=98% ram=4.6g home=88g]
 │ [git: bitbucket.org:mariushko/bash_aid_kit.git (master u=)]
 └─[user@host]$
 ```
