@@ -22,7 +22,7 @@ Inside:
 ## Download the code
 
 ```
-$ git clone git@bitbucket.org:mariushko/bash_aid_kit.git
+$ git clone git@github.com:mariushko/bash_aid_kit.git
 $ cd bash_aid_kit/sbin
 $ ./git-file-wget-all
 ```
@@ -32,7 +32,7 @@ $ ./git-file-wget-all
 $ cd bash_aid_kit
 $ source .bash_main
 ┌─[~/GIT/bash_aid_kit]                                               [ram=4.6g home=88g]
-│ [git: git@bitbucket.org:mariushko/bash_aid_kit.git (master * u=)]
+│ [git: git@github.com:mariushko/bash_aid_kit.git (master * u=)]
 └─[user@host]$ cd reveal.js/test
 ┌─[~/GIT/bash_aid_kit/reveal.js/test]                                [ram=4.6g home=88g]
 └─[user@host]$ slides-on
@@ -77,7 +77,7 @@ BASH prompt example:
 
 ```
 ┌─[~/GIT/bash_aid_kit]                                        [dc=98% ram=4.6g home=88g]
-│ [git: bitbucket.org:mariushko/bash_aid_kit.git (master u=)]
+│ [git: github.com:mariushko/bash_aid_kit.git (master u=)]
 └─[user@host]$
 ```
 ## Features
