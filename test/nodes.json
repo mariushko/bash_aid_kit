@@ -1,10 +1,13 @@
 {
   "nodes": {
-    "centos.internal.local": {
+    "fedora27.internal.local": {
       ":ip": "192.168.35.10",
-      "ports": [],
-      ":memory": 512,
-      ":box": "centos/7"
+      "ports": [
+        { ":host": 8000, ":guest" : 8000, ":id": "reveal1" },
+        { ":host": 35729, ":guest" : 35729, ":id": "reveal2" }
+      ],
+      ":memory": 1024,
+      ":box": "jhcook/fedora26"
     }
   }
 }

@@ -69,7 +69,7 @@ which docker &> /dev/null && {
     -v "$(realpath "${path}")":/revealjs/slides:ro \
     mariushko/revealjs:latest > /dev/null && {
       echo Container started
-      echo "Visit: http//127.0.0.1:8000"
+      echo "Visit: http://127.0.0.1:8000"
     } || {
       echo I can not run container properly
       return 2

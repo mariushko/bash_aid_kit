@@ -33,9 +33,9 @@ $ cd bash_aid_kit
 $ source .bash_main
 ┌─[~/GIT/bash_aid_kit]                                               [ram=4.6g home=88g]
 │ [git: git@bitbucket.org:mariushko/bash_aid_kit.git (master * u=)]
-└─[user@host]$ cd /sys/class/power_supply/BAT0
-┌─[/sys/class/power_supply/BAT0][access=ro path=linked]              [ram=4.6g home=88g]
-└─[user@host]$ cd ~/GIT/bash_aid_kit
+└─[user@host]$ cd reveal.js/test
+┌─[~/GIT/bash_aid_kit/reveal.js/test]                                [ram=4.6g home=88g]
+└─[user@host]$ slides-on
 ```
 or
 ```
@@ -43,8 +43,10 @@ $ cd bash_aid_kit/test
 $ vagrant up
 $ vagrant ssh
 vagrant$ vim-plug-update
-vagrant$ cd /vagrant
+vagrant$ cd /vagrant/reveal.js/test
+vagrant$ slides-on
 ```
+Now you can browse to http://127.0.0.1:8000 to see some slides...
 
 ## I want to use it forever
 ```

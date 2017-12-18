@@ -119,7 +119,7 @@ filetype indent on
 " Set to auto read when a file is changed from the outside
 set autoread
 
-" Turn on the WiLd menu
+" Turn on the wild menu
 set wildmenu
 set wildignore=*.o,*~,*.pyc,*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
 
@@ -178,17 +178,6 @@ augroup END
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin('~/.vim/vim-plug')
 Plug 'ervandew/supertab'
-"Plug 'vim-syntastic/syntastic'
-"if ! empty(glob('~/.env/.vim/vim-plug/syntastic/plugin/syntastic.vim'))
-"  set laststatus=2
-"  set statusline+=%#warningmsg#
-"  set statusline+=%{SyntasticStatuslineFlag()}
-"  set statusline+=%*
-"  let g:syntastic_always_populate_loc_list = 1
-"  let g:syntastic_auto_loc_list = 1
-"  let g:syntastic_check_on_open = 1
-"  let g:syntastic_check_on_wq = 1
-"  endif
 Plug 'iamcco/markdown-preview.vim'
 if ! empty(glob('~/.vim/vim-plug/markdown-preview.vim/plugin/mkdp.vim'))
   let MarkdownPreview_mode = 'off'
@@ -217,12 +206,4 @@ endif
 call plug#end()
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """"""""""""""""""""""""" THE END """""""""""""""""""""""""""""""""""""""""""""
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-""""""""" cursorline
-"try
-"  hi CursorLine cterm=NONE ctermbg=235
-"catch
-"  hi CursorLine cterm=bold
-"endtry
-"  set cursorline
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
