@@ -1,10 +1,10 @@
 # vi:syntax=sh
 
-[[ ${_} != ${0} ]] && {
-  export SOURCEDIR="$(dirname ${BASH_SOURCE})"
-} || {
-  export SOURCEDIR=~/.env
-}
+[[ "${_}" != "${0}" ]] || exit 0
+
+SOURCEDIR="$(dirname "${BASH_SOURCE}")"
+SOURCEDIR="$(realpath "${SOURCEDIR}")"
+export SOURCEDIR
 
 export PATH=${PATH}:${SOURCEDIR}/sbin:${SOURCEDIR}/bin
 
