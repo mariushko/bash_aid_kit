@@ -17,10 +17,12 @@ This project is based heavily on:
 ## Requirements
 
 - BASH :)
+- terminal color preferences: black background
 - systemd
 - docker for reveal.js support
-- vagrant for testing
-- black terminal's background...
+
+For testing only:
+- vagrant
 
 ## Download the code
 

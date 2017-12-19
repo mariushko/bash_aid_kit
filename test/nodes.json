@@ -7,7 +7,7 @@
         { ":host": 35729, ":guest" : 35729, ":id": "reveal2" }
       ],
       ":memory": 1024,
-      ":box": "jhcook/fedora26"
+      ":box": "generic/fedora27"
     }
   }
 }
