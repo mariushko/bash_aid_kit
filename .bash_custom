@@ -65,8 +65,15 @@ which docker &> /dev/null && {
       ./build.sh
       cd -
     }
-    docker run --name revealjs -d -p 8000:8000 -p 35729:35729 \
-    -v "$(realpath "${path}")":/revealjs/slides:ro \
+    path="$(realpath "${path}")"
+    local SEOPT=""
+    which getenforce &> /dev/null \
+    && [[ $(getenforce 2> /dev/null) == Enforcing ]] && {
+      chcon -Rt svirt_sandbox_file_t "${path}" &> /dev/null \
+      || SEOPT="--privileged=true"
+    }
+    docker run ${SEOPT} --name revealjs -d -p 8000:8000 -p 35729:35729 \
+    -v "${path}":/revealjs/slides:ro \
     mariushko/revealjs:latest > /dev/null && {
       echo Container started
       echo "Visit: http://127.0.0.1:8000"
