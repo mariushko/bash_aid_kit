@@ -1,11 +1,6 @@
 # vi:syntax=sh
-[[ ${-} == *i* ]] || return 0
 
-[[ ${_} != ${0} ]] && {
-  export SOURCEDIR="$(dirname ${BASH_SOURCE})"
-} || {
-  export SOURCEDIR=~/.env
-}
+[[ ${-} == *i* ]] || return 0
 
 # Colors:
 # P_USER # P_HOST # P_ALARM

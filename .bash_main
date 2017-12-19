@@ -6,10 +6,10 @@ SOURCEDIR="$(dirname "${BASH_SOURCE}")"
 SOURCEDIR="$(realpath "${SOURCEDIR}")"
 export SOURCEDIR
 
-export PATH=${PATH}:${SOURCEDIR}/sbin:${SOURCEDIR}/bin
+export PATH="${PATH}":"${SOURCEDIR}/sbin":"${SOURCEDIR}/bin"
 
-[[ -f ${SOURCEDIR}/.bash_colors  ]] && source ${SOURCEDIR}/.bash_colors  || :
-[[ -f ${SOURCEDIR}/.bash_custom  ]] && source ${SOURCEDIR}/.bash_custom  || :
-[[ -f ${SOURCEDIR}/.bash_prompt  ]] && source ${SOURCEDIR}/.bash_prompt  || :
+[[ -f "${SOURCEDIR}/.bash_colors"  ]] && source "${SOURCEDIR}/.bash_colors"  || :
+[[ -f "${SOURCEDIR}/.bash_custom"  ]] && source "${SOURCEDIR}/.bash_custom"  || :
+[[ -f "${SOURCEDIR}/.bash_prompt"  ]] && source "${SOURCEDIR}/.bash_prompt"  || :
 
 return 0
