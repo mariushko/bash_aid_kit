@@ -4,20 +4,23 @@
 The main goal is to provide a **simple zero configuration bash environment** for linux users.
 Also provides **markdown** support for making documentation and **slides** much easier.
 
-Inside:
+This project is based heavily on:
 
-- **BASH** (functions, aliases, **prompt**)
-- **GIT** (config, [prompt](https://github.com/git/git/blob/master/contrib/completion/git-prompt.sh))
-- **SVN** ([prompt](https://github.com/mcandre/svn-prompt))
-- **TMUX** ([config](http://www.hamvocke.com/blog/a-guide-to-customizing-your-tmux-conf))
+- **BASH** (functions, aliases, **prompt**, scripts)
+- **GIT** (aliases)
+- **SVN** ([https://github.com/mcandre/svn-prompt](https://github.com/mcandre/svn-prompt))
+- **TMUX** ([http://www.hamvocke.com/blog/a-guide-to-customizing-your-tmux-conf](http://www.hamvocke.com/blog/a-guide-to-customizing-your-tmux-conf))
 - **VIM** ([vim-plug](https://github.com/junegunn/vim-plug))
-- **[reveal.js](https://github.com/hakimel/reveal.js/)** ([docker container](https://github.com/amouat/revealjs-docker))
+- **[reveal.js](https://github.com/hakimel/reveal.js/)** ([https://github.com/amouat/revealjs-docker](https://github.com/amouat/revealjs-docker))
+- **Docker**
 
 ## Requirements
 
 - BASH :)
 - systemd
-- docker
+- docker for reveal.js support
+- vagrant for testing
+- black terminal's background...
 
 ## Download the code
 
@@ -28,16 +31,15 @@ $ ./git-file-wget-all
 ```
 ## Testing
 
+Directly:
 ```
 $ cd bash_aid_kit
 $ source .bash_main
-┌─[~/GIT/bash_aid_kit]                                               [ram=4.6g home=88g]
-│ [git: git@github.com:mariushko/bash_aid_kit.git (master * u=)]
-└─[user@host]$ cd reveal.js/test
-┌─[~/GIT/bash_aid_kit/reveal.js/test]                                [ram=4.6g home=88g]
-└─[user@host]$ slides-on
+$ vim-plug-update
+$ cd reveal.js/test
+$ slides-on
 ```
-or
+or you can use vagrant:
 ```
 $ cd bash_aid_kit/test
 $ vagrant up
@@ -46,7 +48,7 @@ vagrant$ vim-plug-update
 vagrant$ cd /vagrant/reveal.js/test
 vagrant$ slides-on
 ```
-Now you can browse to http://127.0.0.1:8000 to see some slides...
+Now you can browse to **[http://127.0.0.1:8000](http://127.0.0.1:8000)** to see some slides...
 
 ## I want to use it forever
 ```
@@ -122,6 +124,7 @@ BASH prompt example:
             - ```<!---->``` - new (horizontal) slide
             - ```<!--vert-->``` - new vertical slide
             - ```<!--note-->``` - presenter note
+- Optional [Terminus](http://terminus-font.sourceforge.net/) font
 
 and many others
 
