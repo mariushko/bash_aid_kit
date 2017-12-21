@@ -17,4 +17,6 @@ export PATH
 [[ -f "${SOURCEDIR}/.bash_custom"  ]] && source "${SOURCEDIR}/.bash_custom"  || :
 [[ -f "${SOURCEDIR}/.bash_prompt"  ]] && source "${SOURCEDIR}/.bash_prompt"  || :
 
+unset -f pathmunge
+
 return 0
