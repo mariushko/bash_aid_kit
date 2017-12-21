@@ -6,7 +6,12 @@ SOURCEDIR="$(dirname "${BASH_SOURCE}")"
 SOURCEDIR="$(realpath "${SOURCEDIR}")"
 export SOURCEDIR
 
-export PATH="${PATH}":"${SOURCEDIR}/sbin":"${SOURCEDIR}/bin"
+function pathmunge(){ [[ ":${PATH}:" == *:"${1}":* ]] || PATH="${PATH}":"${1}"; }
+
+pathmunge "${SOURCEDIR}/sbin"
+pathmunge "${SOURCEDIR}/bin"
+
+export PATH
 
 [[ -f "${SOURCEDIR}/.bash_colors"  ]] && source "${SOURCEDIR}/.bash_colors"  || :
 [[ -f "${SOURCEDIR}/.bash_custom"  ]] && source "${SOURCEDIR}/.bash_custom"  || :
