@@ -1,7 +1,5 @@
 # vi:syntax=sh
 
-[[ ${-} == *i* ]] || return 0
-
 # Colors:
 # P_USER # P_HOST # P_ALARM
 # P_OK   # P_WARN # P_ERR
@@ -19,14 +17,14 @@ export SEP='='
 # Power/Battery prefix:
 export PAC="ac" PDC="dc"
 
-[[ -f ${SOURCEDIR}/.bash_modules ]] && source ${SOURCEDIR}/.bash_modules || :
+[[ -f ${_BASHAIDKIT_}/.bash_modules ]] && source ${_BASHAIDKIT_}/.bash_modules || :
 
 ## timer
 #
 # function timer_start(){ TIME_START=${TIME_START:-$SECONDS}; }
 # function timer_stop(){ TIMER=$(( SECONDS - TIME_START )); unset TIME_START; }
 # function print_timer(){
-#   [[ ${TIMER} ]] && (( TIMER >= 10 )) && echo -en " last${SEP}$(s2h ${TIMER})"
+#   [[ ${TIMER} ]] && (( TIMER >= 10 )) && echo -en " last${SEP}$(_s2h_ ${TIMER})"
 # }
 # export TIMER_PS1="\$(print_timer)"
 ## the end of timer
@@ -226,7 +224,7 @@ function set_prompt(){
 }
 
 # last chance to do some your own tweeks
-[[ -f "${SOURCEDIR}/.bash_priv_post" ]] && source "${SOURCEDIR}/.bash_priv_post"
+[[ -f "${_BASHAIDKIT_}/.bash_priv_post" ]] && source "${_BASHAIDKIT_}/.bash_priv_post"
 [[ -f "~/.bash_priv_post" ]] && source "~/.bash_priv_post"
 
 ############## timer

@@ -1,10 +1,10 @@
-set runtimepath^=${SOURCEDIR}/.vim
+set runtimepath^=${_BASHAIDKIT_}/.vim
 set nocompatible
 set modeline
 set smartindent
 
 """""""""" HELP
-let help_file = expand('$SOURCEDIR/.vimhelp')
+let help_file = expand('$_BASHAIDKIT_/.vimhelp')
 let help_mode = 'on'
 function HelpToggle()
   if g:help_mode == 'on'

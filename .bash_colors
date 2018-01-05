@@ -1,7 +1,5 @@
 # vi:syntax=sh
 
-[[ ${-} == *i* ]] || return 0
-
 declare -i COLOR_SUPPORT
 for term in xterm-256color ${TERM} xterm-88color xterm-16color xterm-color linux
 do

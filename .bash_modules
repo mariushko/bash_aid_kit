@@ -2,22 +2,22 @@
 [[ ${-} == *i* ]] || return 0
 
 [[ ${_} != ${0} ]] && {
-  export SOURCEDIR="$(dirname ${BASH_SOURCE})"
+  export _BASHAIDKIT_="$(dirname ${BASH_SOURCE})"
 } || {
-  export SOURCEDIR=~/.env
+  export _BASHAIDKIT_=~/.env
 }
 
 ###########################  GIT  #######################################
 # https://raw.github.com/git/git/master/contrib/completion/git-prompt.sh
 
 export GIT_PS1=""
-[[ -f "${SOURCEDIR}"/.git-prompt.sh ]] && {
+[[ -f "${_BASHAIDKIT_}"/.git-prompt.sh ]] && {
   export GIT_PS1_SHOWUNTRACKEDFILES=1
   export GIT_PS1_SHOWDIRTYSTATE=1
   export GIT_PS1_SHOWUPSTREAM=verbose
   export GIT_PS1_SHOWSTASHSTATE=1
   export GIT_PS1_DESCRIBE_STYLE=branch
-  source "${SOURCEDIR}"/.git-prompt.sh
+  source "${_BASHAIDKIT_}"/.git-prompt.sh
   function print_git_prompt(){
     local BRANCH=$(__git_ps1 '%s')
     [[ "${BRANCH}" ]] || return 0
@@ -39,8 +39,8 @@ export GIT_PS1=""
 # https://raw.github.com/mcandre/svn-prompt/master/lib/svn-prompt.sh
 
 export SVN_PS1=""
-[[ -f "${SOURCEDIR}"/.svn-prompt.sh ]] && {
-  source "${SOURCEDIR}"/.svn-prompt.sh
+[[ -f "${_BASHAIDKIT_}"/.svn-prompt.sh ]] && {
+  source "${_BASHAIDKIT_}"/.svn-prompt.sh
   function print_svn_prompt(){
     local ROOT=$(langc parse_svn_repository_root | sed 's#^.*://##' | sed 's#^.*@##')
     [[ "${ROOT}" ]] || return 0
@@ -150,11 +150,11 @@ export NETMON=""
   COMM=${COMM##*/}
   [[ ${SCRIPT_NAME} == ${COMM} ]] && export NETMON=${SHARED_FILE}
 } || {
-  [[ -x ${SOURCEDIR}/sbin/netmon.sh ]] && {
+  [[ -x ${_BASHAIDKIT_}/sbin/netmon.sh ]] && {
     (( $(id -u) == 0 )) && {
-      systemd-run --property=Restart=always ${SOURCEDIR}/sbin/netmon.sh &> /dev/null
+      systemd-run --property=Restart=always ${_BASHAIDKIT_}/sbin/netmon.sh &> /dev/null
     } || {
-      systemd-run --property=Restart=always --user ${SOURCEDIR}/sbin/netmon.sh &> /dev/null
+      systemd-run --property=Restart=always --user ${_BASHAIDKIT_}/sbin/netmon.sh &> /dev/null
     }
     (( $? == 0 )) && export NETMON=${SHARED_FILE}
   }
@@ -212,7 +212,7 @@ function internet_module(){
 function ram_module(){
   local MOD=""
   local free_mem=$(grep '^MemFree' /proc/meminfo | awk '{print $2}')
-  local -l free_mem_human=$(k2h ${free_mem})
+  local -l free_mem_human=$(_k2h_ ${free_mem})
   (( free_mem < 512 * 1024 )) && {
     MOD+="${P_DEF}${SLB}ram${SEP}${P_WARN}${free_mem_human}${P_DEF}${SRB}"
   } || {
@@ -225,7 +225,7 @@ function swap_module(){
   local -i swap_total=$(grep '^SwapTotal' /proc/meminfo | awk '{print $2}')
   local -i swap_free=$(grep '^SwapFree:' /proc/meminfo | awk '{print $2}')
   (( swap_total > swap_free )) && {
-    local -l free_swap_human=$(k2h $(( swap_total - swap_free )))
+    local -l free_swap_human=$(_k2h_ $(( swap_total - swap_free )))
     MOD+="${P_DEF}${SLB}swap_used${SEP}${P_WARN}${free_swap_human}${P_DEF}${SRB}"
   } || return 0
   echo "${MOD}"
@@ -235,7 +235,7 @@ function space_module(){
   local LABEL="${2:-home}"
   local MOD=""
   local -l free_home_space=$(langc df --output=avail -k ${TARGET} | grep -v Avail | sed 's/^ *//')
-  local -l free_home_space_human=$(k2h ${free_home_space})
+  local -l free_home_space_human=$(_k2h_ ${free_home_space})
   if (( free_home_space < 128 * 1024  )); then
     MOD+="${P_DEF}${SLB}${LABEL}${SEP}${P_ERR}${free_home_space_human}${P_DEF}${SRB}"
   elif (( free_home_space < 1024 * 1024  )); then

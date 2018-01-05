@@ -1,7 +1,5 @@
 # vi:syntax=sh
 
-[[ ${-} == *i* ]] || return 0
-
 # history
 export HISTCONTROL=ignoreboth
 export HISTSIZE=10000
@@ -28,16 +26,16 @@ which vim &> /dev/null && {
   export VISUAL=vim
 
   [[ -f ~/.vimrc ]] && alias vim="vim -u ~/.vimrc" || {
-    alias vim="vim -u ${SOURCEDIR}/.vimrc"
+    alias vim="vim -u ${_BASHAIDKIT_}/.vimrc"
     alias vim-plug-update="vim +PlugUpgrade +PlugUpdate +qa!"
   }
 }
 [[ -f ~/.tmux.conf ]] \
   && alias alias tmux="tmux -f ~/.tmux.conf" \
-  || alias tmux="tmux -f ${SOURCEDIR}/.tmux.conf"
+  || alias tmux="tmux -f ${_BASHAIDKIT_}/.tmux.conf"
 [[ -f ~/.screenrc ]] \
   && alias screen="screen -c ~/.screenrc" \
-  || alias screen="screen -c ${SOURCEDIR}/.screenrc"
+  || alias screen="screen -c ${_BASHAIDKIT_}/.screenrc"
 
 # reveal.fs slides
 # your markdown file name has to be: index.md
@@ -55,7 +53,7 @@ which docker &> /dev/null && {
     }
     slides-off
     docker images --format '{{.Repository}}:{{.Tag}}' | grep -q 'mariushko/revealjs:latest' || {
-      cd "${SOURCEDIR}/reveal.js/"
+      cd "${_BASHAIDKIT_}/reveal.js/"
       ./build.sh
       cd -
     }
@@ -84,7 +82,7 @@ function langc(){
   eval LANG=C LC_ALL=C "$@"
 }
 
-function b2h(){
+function _b2h_(){
   # bites to human readable format
   # langc numfmt --to=iec --format "%.1f" ${1:-0} \
   langc numfmt --to=iec --format "%f" ${1:-0} \
@@ -102,12 +100,12 @@ function b2h(){
            }}'
 }
 
-function k2h(){
+function _k2h_(){
   # kbites to human readable format
-  b2h $(( ${1:-0} * 1024 ))
+  _b2h_ $(( ${1:-0} * 1024 ))
 }
 
-function s2h(){
+function _s2h_(){
   # seconds to human readable format
   local -i T=${1:-0} D H M S
   local -l RET=""
@@ -120,7 +118,7 @@ function s2h(){
   echo ${RET}
 }
 
-declare -xf langc b2h k2h s2h
+declare -xf langc _b2h_ _k2h_ _s2h_
 
 unalias ll &> /dev/null || :
 function ll(){
@@ -156,7 +154,7 @@ function ll(){
   } | less
 }
 
-[[ -f "${SOURCEDIR}/.bash_priv_pre" ]] && source "${SOURCEDIR}/.bash_priv_pre"
+[[ -f "${_BASHAIDKIT_}/.bash_priv_pre" ]] && source "${_BASHAIDKIT_}/.bash_priv_pre"
 [[ -f "~/.bash_priv_pre" ]] && source "~/.bash_priv_pre"
 
 return 0

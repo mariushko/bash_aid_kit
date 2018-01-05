@@ -2,21 +2,21 @@
 
 [[ "${_}" != "${0}" ]] || exit 0
 
-SOURCEDIR="$(dirname "${BASH_SOURCE}")"
-SOURCEDIR="$(realpath "${SOURCEDIR}")"
-export SOURCEDIR
+_BASHAIDKIT_="$(dirname "${BASH_SOURCE}")"
+_BASHAIDKIT_="$(realpath "${_BASHAIDKIT_}")"
+export _BASHAIDKIT_
 
 function pathmunge(){ [[ ":${PATH}:" == *:"${1}":* ]] || PATH="${PATH}":"${1}"; }
-
-pathmunge "${SOURCEDIR}/sbin"
-pathmunge "${SOURCEDIR}/bin"
+pathmunge "${_BASHAIDKIT_}/sbin"
+pathmunge "${_BASHAIDKIT_}/bin"
+unset -f pathmunge
 
 export PATH
 
-[[ -f "${SOURCEDIR}/.bash_colors"  ]] && source "${SOURCEDIR}/.bash_colors"  || :
-[[ -f "${SOURCEDIR}/.bash_custom"  ]] && source "${SOURCEDIR}/.bash_custom"  || :
-[[ -f "${SOURCEDIR}/.bash_prompt"  ]] && source "${SOURCEDIR}/.bash_prompt"  || :
+[[ ${-} == *i* ]] || return 0
 
-unset -f pathmunge
+[[ -f "${_BASHAIDKIT_}/.bash_colors" ]] && source "${_BASHAIDKIT_}/.bash_colors" || :
+[[ -f "${_BASHAIDKIT_}/.bash_custom" ]] && source "${_BASHAIDKIT_}/.bash_custom" || :
+[[ -f "${_BASHAIDKIT_}/.bash_prompt" ]] && source "${_BASHAIDKIT_}/.bash_prompt" || :
 
 return 0

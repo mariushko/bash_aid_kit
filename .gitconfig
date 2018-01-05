@@ -78,4 +78,5 @@ f() { \
   file-wget-all     = !git-file-wget-all
   file-all-versions = !git-file-all-versions
   file-restore      = !git-file-restore
+  file-refactor-all = !git-file-refactor-all
   test-script       = !git-test-script

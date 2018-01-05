@@ -1,0 +1,16 @@
+#!/bin/bash
+
+(( ${#} == 2 )) || {
+  echo 2 args needed: refactor_from refactor_to
+  exit 1
+}
+cd "$(git rev-parse --show-toplevel)" || {
+  echo You are outside of any git project...
+  exit 2
+}
+
+while read -r FILE
+do
+  sed  -i "s/\<${1}\>/${2}/g" "${FILE}"
+done < <( find . -not -path "./.git/*" -type f )
+cd - &> /dev/null
