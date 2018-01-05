@@ -1,4 +1,5 @@
 set runtimepath^=${_BASHAIDKIT_}/.vim
+set clipboard=unnamed
 set nocompatible
 set modeline
 set smartindent
