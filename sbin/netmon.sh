@@ -28,10 +28,10 @@ function _try_it(){
   return 1
 }
 
-declare -i INTERFACE_UP=0
-declare -i GATEWAY_ONLINE=0
-declare -i DNS_ONLINE=0
-declare -i GOOGLE_DNS_ONLINE=0
+declare -i INTERFACE_UP=1
+declare -i GATEWAY_ONLINE=1
+declare -i DNS_ONLINE=1
+declare -i GOOGLE_DNS_ONLINE=1
 declare ROUTER DNS
 
 while :
